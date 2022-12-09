@@ -1,0 +1,42 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: deploy-production
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://admin.escape-note.com
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - uses: canastro/copy-file-action@master
+        with:
+          source: 'serverless-production.yml'
+          target: 'serverless.yml'
+
+      - uses: canastro/copy-file-action@master
+        with:
+          source: '.env.production'
+          target: '.env'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Serverless AWS authentication
+        run: npx serverless@2.72.2 --component=serverless-next config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Deploy to AWS
+        run: npx serverless@2.72.2

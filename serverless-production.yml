@@ -1,0 +1,22 @@
+name: escapenote-admin-web-prod
+
+escapenoteAdminWebProd:
+  component: '@sls-next/serverless-component@3.7'
+  inputs:
+    roleArn: 'arn:aws:iam::805854560716:role/escapenote-admin-web-role'
+    bucketRegion: 'ap-northeast-2'
+    bucketName: 'escapenote-admin-web-production'
+    domain: ['admin', 'escape-note.com']
+    cloudfront:
+      distributionId: EIZ7OGA90PHZI
+      defaults:
+        forward:
+          headers: [CloudFront-Is-Desktop-Viewer, CloudFront-Is-Mobile-Viewer]
+    name:
+      defaultLambda: escapenoteAdminWebProdDefaultLambda
+      apiLambda: escapenoteAdminWebProdApiLambda
+      imageLambda: escapenoteAdminWebProdImageLambda
+    certificate:
+      cloudFrontDefaultCertificate: false
+      acmCertificateArn: 'arn:aws:acm:us-east-1:805854560716:certificate/0874a7b5-ef44-4656-9c68-6c3e05c2e6ce'
+    publicDirectoryCache: true
