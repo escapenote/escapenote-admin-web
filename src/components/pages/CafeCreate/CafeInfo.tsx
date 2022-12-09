@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, InputNumber, Select, Typography } from 'antd';
+import { DatePicker, Form, Input, InputNumber, Select, Typography } from 'antd';
 
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';
@@ -49,6 +49,9 @@ const CafeInfo = () => {
       </Form.Item>
       <Form.Item label="클로즈 시간" name="closingHour">
         <InputNumber min={0} max={24} />
+      </Form.Item>
+      <Form.Item label="생성일" name="since">
+        <DatePicker picker="year" placeholder="" />
       </Form.Item>
     </Section>
   );

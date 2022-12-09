@@ -10,10 +10,11 @@ export interface ICafe {
   lat: number;
   lng: number;
   images: string[];
+  website: string;
   tel: string;
   openingHour: number;
   closingHour: number;
-  url: string;
+  since: string;
   status: string;
   createdAt: Date;
   updatedAt: Date;

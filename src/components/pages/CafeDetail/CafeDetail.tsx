@@ -7,6 +7,7 @@ import {
   StopTwoTone,
   PauseCircleTwoTone,
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 
 import { ICafe } from 'types';
 import api from 'api';
@@ -29,7 +30,10 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
 
   useEffect(() => {
     if (cafe) {
-      form.setFieldsValue(cafe);
+      form.setFieldsValue({
+        ...cafe,
+        since: cafe.since ? dayjs(cafe.since) : undefined,
+      });
     }
     return () => {
       handleValuesReset();
@@ -64,18 +68,19 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
 
   function handleValuesReset() {
     form.setFieldsValue({
+      areaA: undefined,
+      areaB: undefined,
+      name: undefined,
       addressLine: undefined,
-      cityId: undefined,
-      desc: undefined,
-      images: undefined,
-      internet: undefined,
       lat: undefined,
       lng: undefined,
-      name: undefined,
-      openingHours: undefined,
-      phone: undefined,
-      type: undefined,
+      images: undefined,
       website: undefined,
+      tel: undefined,
+      openingHour: undefined,
+      closingHour: undefined,
+      since: undefined,
+      status: undefined,
     });
   }
 
@@ -95,6 +100,12 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
     if (!values.addressLine) {
       message.error('주소는 필수값입니다.');
       return;
+    }
+
+    if (values.since) {
+      values.since = values.since.$y;
+    } else {
+      values.since = '';
     }
 
     updateMutate(values);
