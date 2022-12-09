@@ -5,6 +5,7 @@ import { ITheme } from 'types';
  * 테마 리스트 조회
  */
 interface IFetchThemesProps {
+  cafeId?: string;
   term?: string;
   status?: string;
   page: number;
@@ -17,6 +18,7 @@ interface IFetchThemesRes {
   items: ITheme[];
 }
 export const fetchThemes = async ({
+  cafeId,
   term,
   status,
   page,
@@ -28,6 +30,7 @@ export const fetchThemes = async ({
     skip: (page - 1) * limit,
     take: limit,
   } as any;
+  if (cafeId) params.cafeId = cafeId;
   if (term) params.term = term;
   if (status) params.status = status;
   if (sort) params.sort = sort;
@@ -58,12 +61,15 @@ export interface ICreateThemeBodyProps {
   name: string;
   intro: string;
   thumbnail: string;
+  genre: string;
+  price: number;
   during: number;
   minPerson: number;
   maxPerson: number;
   level: number;
-  detailUrl: string;
-  reservationUrl: string;
+  lockingRatio?: number;
+  detailUrl?: string;
+  reservationUrl?: string;
   status: string;
 }
 interface ICreateThemeProps {
@@ -82,12 +88,15 @@ export interface IUpdateThemeBodyProps {
   name: string;
   intro: string;
   thumbnail: string;
+  genre: string;
+  price: number;
   during: number;
   minPerson: number;
   maxPerson: number;
   level: number;
-  detailUrl: string;
-  reservationUrl: string;
+  lockingRatio?: number;
+  detailUrl?: string;
+  reservationUrl?: string;
   status: string;
 }
 interface IUpdateThemeProps {

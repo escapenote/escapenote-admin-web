@@ -83,35 +83,43 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
 
   function handleSubmit(values: any) {
     if (!values.images) {
-      message.error('썸네일은 필수값입니다.');
+      message.warning('썸네일은 필수값입니다.');
       return;
     }
     if (!values.cafeId) {
-      message.error('카페는 필수값입니다.');
+      message.warning('카페는 필수값입니다.');
       return;
     }
     if (!values.name) {
-      message.error('이름은 필수값입니다.');
+      message.warning('이름은 필수값입니다.');
       return;
     }
     if (!values.intro) {
-      message.error('설명은 필수값입니다.');
+      message.warning('설명은 필수값입니다.');
+      return;
+    }
+    if (!values.genre) {
+      message.warning('장르는 필수값입니다.');
+      return;
+    }
+    if (!values.price) {
+      message.warning('금액은 필수값입니다.');
       return;
     }
     if (!values.during) {
-      message.error('시간은 필수값입니다.');
+      message.warning('시간은 필수값입니다.');
       return;
     }
     if (!values.minPerson) {
-      message.error('최소 인원수는 필수값입니다.');
+      message.warning('최소 인원수는 필수값입니다.');
       return;
     }
     if (!values.maxPerson) {
-      message.error('최대 인원수는 필수값입니다.');
+      message.warning('최대 인원수는 필수값입니다.');
       return;
     }
     if (!values.level) {
-      message.error('난이도는 필수값입니다.');
+      message.warning('난이도는 필수값입니다.');
       return;
     }
 

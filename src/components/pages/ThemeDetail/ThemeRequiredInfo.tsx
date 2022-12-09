@@ -12,10 +12,10 @@ import {
 import type { RcFile, UploadChangeParam } from 'antd/es/upload/interface';
 import { useQuery } from '@tanstack/react-query';
 
+import { ITheme } from 'types';
 import api from 'api';
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';
-import { ITheme } from 'types';
 
 interface IProps {
   form: FormInstance<any>;
@@ -25,7 +25,7 @@ const ThemeRequiredInfo: React.FC<IProps> = ({ form, theme }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const { data: cafeList } = useQuery(['fetchCafes'], () =>
-    api.cafes.fetchCafes({ page: 1, limit: 1000 }),
+    api.cafes.fetchCafes({ page: 1, limit: 1000, sort: 'name', order: 'asc' }),
   );
 
   useEffect(() => {

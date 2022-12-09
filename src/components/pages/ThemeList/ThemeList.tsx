@@ -20,7 +20,6 @@ import {
   Tooltip,
   Button,
   Select,
-  Tag,
 } from 'antd';
 import dayjs from 'dayjs';
 
@@ -30,7 +29,7 @@ import { sorterTooltipNames } from 'utils/locale';
 import { Box } from 'components/atoms';
 import Section from 'components/templates/Section';
 import PageHeader from 'components/molecules/PageHeader';
-import { ITheme } from 'types';
+import { ICafe } from 'types';
 
 const ThemeList = () => {
   const router = useRouter();
@@ -47,15 +46,17 @@ const ThemeList = () => {
   /**
    * 필터
    */
-  const term = String(router.query.term ?? '');
+  const cafeId = String(router.query.cafeId ?? '') || undefined;
+  const term = String(router.query.term ?? '') || undefined;
   const status = String(router.query.status ?? '');
 
   const [form] = Form.useForm();
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
-    ['fetchThemes', term, status, page, limit, sort, order],
+    ['fetchThemes', cafeId, term, status, page, limit, sort, order],
     () =>
       api.themes.fetchThemes({
+        cafeId,
         term,
         status,
         page,
@@ -66,6 +67,10 @@ const ThemeList = () => {
     {
       keepPreviousData: true,
     },
+  );
+
+  const { data: cafeList } = useQuery(['fetchCafes'], () =>
+    api.cafes.fetchCafes({ page: 1, limit: 1000, sort: 'name', order: 'asc' }),
   );
 
   function moveToCreatePage() {
@@ -82,7 +87,11 @@ const ThemeList = () => {
   }
 
   function handleReset() {
-    form.setFieldsValue({ term: '', cityId: '', status: '' });
+    form.setFieldsValue({
+      cafeId: undefined,
+      term: undefined,
+      status: '',
+    });
     router.push({});
   }
 
@@ -96,12 +105,31 @@ const ThemeList = () => {
         <Form
           form={form}
           layout="inline"
-          initialValues={{ term, status }}
+          initialValues={{ cafeId, term, status }}
           onFinish={handleSubmit}
         >
           <Box flexDirection="row" justifyContent="space-between" width="100%">
             <Row style={{ flex: 1 }}>
-              <Form.Item label="테마명" name="term">
+              <Form.Item label="카페" name="cafeId">
+                <Select
+                  style={{ width: '200px' }}
+                  showSearch
+                  allowClear
+                  placeholder="카페를 선택해주세요"
+                  optionFilterProp="label"
+                >
+                  {cafeList?.items.map(item => (
+                    <Select.Option
+                      key={item.id}
+                      label={item.name}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item label="테마" name="term">
                 <Input placeholder="테마를 입력하세요" />
               </Form.Item>
               <Form.Item label="상태" name="status">
@@ -171,6 +199,12 @@ const ThemeList = () => {
               },
             },
             {
+              title: '카페',
+              dataIndex: 'cafe',
+              width: 120,
+              render: (cafe: ICafe) => cafe.name,
+            },
+            {
               title: '이미지',
               dataIndex: 'thumbnail',
               width: 100,
@@ -191,6 +225,13 @@ const ThemeList = () => {
               ...(sort === 'name' && { sortOrder: orderedForAntd }),
             },
             {
+              title: '장르',
+              dataIndex: 'genre',
+              sortDirections: ['descend', 'ascend', 'descend'],
+              sorter: true,
+              ...(sort === 'genre' && { sortOrder: orderedForAntd }),
+            },
+            {
               title: '최소 인원수',
               dataIndex: 'minPerson',
               width: 100,
@@ -209,7 +250,7 @@ const ThemeList = () => {
             {
               title: '시간',
               dataIndex: 'during',
-              width: 80,
+              width: 60,
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
               ...(sort === 'during' && { sortOrder: orderedForAntd }),
@@ -217,7 +258,7 @@ const ThemeList = () => {
             {
               title: '난이도',
               dataIndex: 'level',
-              width: 80,
+              width: 70,
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
               ...(sort === 'level' && { sortOrder: orderedForAntd }),
@@ -241,7 +282,7 @@ const ThemeList = () => {
             {
               title: '생성날짜',
               dataIndex: 'createdAt',
-              width: 160,
+              width: 140,
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
               ...(sort === 'createdAt' && { sortOrder: orderedForAntd }),
@@ -251,7 +292,7 @@ const ThemeList = () => {
             {
               title: '수정날짜',
               dataIndex: 'updatedAt',
-              width: 160,
+              width: 140,
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
               ...(sort === 'updatedAt' && { sortOrder: orderedForAntd }),

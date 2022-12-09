@@ -5,7 +5,7 @@ import { ICafe } from './cafe';
  */
 export interface ITheme {
   id: string;
-  cafe: ICafe
+  cafe: ICafe;
   cafeId: string;
   name: string;
   intro: string;
