@@ -30,6 +30,7 @@ import { sorterTooltipNames } from 'utils/locale';
 import { Box } from 'components/atoms';
 import Section from 'components/templates/Section';
 import PageHeader from 'components/molecules/PageHeader';
+import { ITheme } from 'types';
 
 const CafeList = () => {
   const router = useRouter();
@@ -191,6 +192,13 @@ const CafeList = () => {
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
               ...(sort === 'name' && { sortOrder: orderedForAntd }),
+            },
+            {
+              title: '테마 수',
+              dataIndex: 'themes',
+              width: 80,
+              align: 'center',
+              render: (themes: ITheme[]) => themes.length,
             },
             {
               title: '상태',

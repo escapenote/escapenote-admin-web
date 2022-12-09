@@ -6,29 +6,51 @@ import { Box } from 'components/atoms';
 interface IProps {
   title: string;
   subTitle?: React.ReactNode | string;
-  extra?: any;
+  extra?: React.ReactNode | string;
+  footer?: React.ReactNode | string;
   onBack?: any;
 }
-const PageLoader: React.FC<IProps> = ({ title, subTitle, extra, onBack }) => (
+const PageLoader: React.FC<IProps> = ({
+  title,
+  subTitle,
+  extra,
+  footer,
+  onBack,
+}) => (
   <Wrapper>
-    <Box flexDirection="row" alignItems="center">
-      {onBack && (
-        <BackButton type="text" icon={<ArrowLeftOutlined />} onClick={onBack} />
+    <Container>
+      <Box flexDirection="row" alignItems="center">
+        {onBack && (
+          <BackButton
+            type="text"
+            icon={<ArrowLeftOutlined />}
+            onClick={onBack}
+          />
+        )}
+        <Title>{title}</Title>
+        <Box ml="8px">{subTitle && subTitle}</Box>
+      </Box>
+      <Box flexDirection="row" gridGap="8px">
+        {extra && extra}
+      </Box>
+    </Container>
+    <Box>
+      {footer && (
+        <Box mt="12px" mb="-32px" mx="12px">
+          {footer}
+        </Box>
       )}
-      <Title>{title}</Title>
-      <Box ml="8px">{subTitle && subTitle}</Box>
-    </Box>
-    <Box flexDirection="row" gridGap="8px">
-      {extra && extra}
     </Box>
   </Wrapper>
 );
 
 const Wrapper = styled.div`
+  background-color: rgba(var(--content));
+  padding: 16px 24px;
+`;
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 16px 24px;
-  background-color: rgba(var(--content));
 `;
 const BackButton = styled(Button)`
   margin-right: 8px;

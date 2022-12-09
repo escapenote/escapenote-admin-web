@@ -10,10 +10,13 @@ export interface ITheme {
   name: string;
   intro: string;
   thumbnail: string;
+  genre: string;
+  price: number;
   during: number;
   minPerson: number;
   maxPerson: number;
   level: number;
+  lockingRatio: number;
   detailUrl: string;
   reservationUrl: string;
   status: string;

@@ -1,3 +1,5 @@
+import { ITheme } from './theme';
+
 /**
  * 카페
  */
@@ -15,6 +17,8 @@ export interface ICafe {
   openingHour: number;
   closingHour: number;
   since: string;
+  themes: ITheme[];
+  themesCount: number;
   status: string;
   createdAt: Date;
   updatedAt: Date;

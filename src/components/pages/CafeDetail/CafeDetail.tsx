@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Typography, Modal, Button, Row, Col, Form, message } from 'antd';
+import { Typography, Modal, Button, Row, Col, Form, message, Tabs } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import {
   CheckCircleTwoTone,
@@ -17,6 +17,7 @@ import { Box } from 'components/atoms';
 import CafeInfo from './CafeInfo';
 import CafeLocation from './CafeLocation';
 import CafeImage from './CafeImage';
+import CafeThemes from './CafeThemes';
 
 interface IProps {
   id: string;
@@ -24,6 +25,8 @@ interface IProps {
 }
 const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
   const router = useRouter();
+
+  const tab = String(router.query.tab ?? 'info');
 
   const [form] = Form.useForm();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -122,6 +125,10 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
     setModalVisible(false);
   }
 
+  function handleChangeTab(activeTab: string) {
+    router.replace({ query: { ...router.query, tab: activeTab } });
+  }
+
   return (
     <>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -161,19 +168,32 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
               ),
             ]}
             onBack={() => router.back()}
+            footer={
+              <Tabs activeKey={tab} onChange={handleChangeTab}>
+                <Tabs.TabPane key="info" tab="카페 정보" />
+                <Tabs.TabPane
+                  key="themes"
+                  tab={`테마 리스트 (${cafe?.themesCount ?? 0})`}
+                />
+              </Tabs>
+            }
           />
         </Box>
 
-        <Row gutter={[16, 16]}>
-          <Col span={8}>
-            <CafeInfo />
-          </Col>
+        {tab === 'info' ? (
+          <Row gutter={[16, 16]}>
+            <Col span={8}>
+              <CafeInfo />
+            </Col>
 
-          <Col span={16}>
-            <CafeImage form={form} cafe={cafe} />
-            <CafeLocation form={form} />
-          </Col>
-        </Row>
+            <Col span={16}>
+              <CafeImage form={form} cafe={cafe} />
+              <CafeLocation form={form} />
+            </Col>
+          </Row>
+        ) : (
+          <CafeThemes id={id} />
+        )}
       </Form>
 
       {/* Modals */}

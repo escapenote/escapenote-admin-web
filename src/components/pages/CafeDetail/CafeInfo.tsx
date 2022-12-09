@@ -48,10 +48,20 @@ const SpaceInfo = () => {
         <Input />
       </Form.Item>
       <Form.Item label="오픈 시간" name="openingHour">
-        <InputNumber min={0} max={24} />
+        <InputNumber
+          style={{ width: '120px' }}
+          min={0}
+          max={24}
+          addonAfter="시간"
+        />
       </Form.Item>
       <Form.Item label="클로즈 시간" name="closingHour">
-        <InputNumber min={0} max={24} />
+        <InputNumber
+          style={{ width: '120px' }}
+          min={0}
+          max={24}
+          addonAfter="시간"
+        />
       </Form.Item>
       <Form.Item label="생성일" name="since">
         <DatePicker picker="year" placeholder="" />
