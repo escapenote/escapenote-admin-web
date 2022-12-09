@@ -31,19 +31,19 @@ const CafeDetail = () => {
 
   function handleSubmit(values: any) {
     if (!values.areaA) {
-      message.error('지역 대분류는 필수값입니다.');
+      message.warning('지역 대분류는 필수값입니다.');
       return;
     }
     if (!values.areaB) {
-      message.error('지역 소분류는 필수값입니다.');
+      message.warning('지역 소분류는 필수값입니다.');
       return;
     }
     if (!values.name) {
-      message.error('이름은 필수값입니다.');
+      message.warning('이름은 필수값입니다.');
       return;
     }
     if (!values.addressLine) {
-      message.error('주소는 필수값입니다.');
+      message.warning('주소는 필수값입니다.');
       return;
     }
 
