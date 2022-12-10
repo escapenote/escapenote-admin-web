@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { pickBy } from 'lodash';
@@ -25,12 +26,12 @@ import {
 import dayjs from 'dayjs';
 
 import api from 'api';
+import { ICafe, ITheme } from 'types';
 import { numberWithComma } from 'utils/common';
 import { sorterTooltipNames } from 'utils/locale';
 import { Box } from 'components/atoms';
 import Section from 'components/templates/Section';
 import PageHeader from 'components/molecules/PageHeader';
-import { ITheme } from 'types';
 
 const CafeList = () => {
   const router = useRouter();
@@ -198,7 +199,13 @@ const CafeList = () => {
               dataIndex: 'themes',
               width: 80,
               align: 'center',
-              render: (themes: ITheme[]) => themes.length,
+              render: (themes: ITheme[], cafe: ICafe) => {
+                return (
+                  <Link href={`/cafes/${cafe.id}?tab=themes`}>
+                    <a>{themes.length}</a>
+                  </Link>
+                );
+              },
             },
             {
               title: '상태',
