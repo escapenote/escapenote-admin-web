@@ -19,6 +19,7 @@ export interface ITheme {
   lockingRatio: number;
   detailUrl: string;
   reservationUrl: string;
+  openDate: string;
   status: string;
   createdAt: Date;
   updatedAt: Date;

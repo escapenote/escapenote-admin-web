@@ -7,7 +7,6 @@ import {
   StopTwoTone,
   PauseCircleTwoTone,
 } from '@ant-design/icons';
-import dayjs from 'dayjs';
 
 import { ICafe } from 'types';
 import api from 'api';

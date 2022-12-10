@@ -68,6 +68,7 @@ export interface ICreateThemeBodyProps {
   maxPerson: number;
   level: number;
   lockingRatio?: number;
+  openDate?: string;
   detailUrl?: string;
   reservationUrl?: string;
   status: string;
@@ -95,6 +96,7 @@ export interface IUpdateThemeBodyProps {
   maxPerson: number;
   level: number;
   lockingRatio?: number;
+  openDate?: string;
   detailUrl?: string;
   reservationUrl?: string;
   status: string;

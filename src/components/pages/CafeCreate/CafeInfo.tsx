@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker, Form, Input, InputNumber, Select, Typography } from 'antd';
+import { Form, Input, InputNumber, Select, Typography } from 'antd';
 
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';

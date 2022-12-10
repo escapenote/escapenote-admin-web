@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Button, Row, Col, Form, message } from 'antd';
 import { useMutation } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
 import api from 'api';
 import { ICreateThemeBodyProps } from 'api/themes';
@@ -68,6 +69,12 @@ const ThemeCreate = () => {
     if (!values.level) {
       message.warning('난이도는 필수값입니다.');
       return;
+    }
+
+    if (values.openDate) {
+      values.openDate = dayjs(values.openDate.$d).format('YYYY-MM-DD');
+    } else {
+      values.openDate = '';
     }
 
     const thumbnail = values.images.length > 0 ? values.images[0] : '';

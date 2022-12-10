@@ -1,5 +1,13 @@
 import React from 'react';
-import { Col, Form, Input, InputNumber, Row, Typography } from 'antd';
+import {
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Typography,
+} from 'antd';
 
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';
@@ -39,16 +47,27 @@ const ThemeOptionalInfo = () => {
           </Col>
         </Row>
       </Box>
-      <Form.Item label="난이도" name="level" required>
-        <InputNumber min={0} max={5} />
-      </Form.Item>
-      <Form.Item label="자물쇠 장치 비율" name="lockingRatio">
-        <InputNumber
-          style={{ width: '100px' }}
-          min={0}
-          max={100}
-          addonAfter="%"
-        />
+      <Box mb="16px">
+        <Row gutter={[16, 16]}>
+          <Col>
+            <Form.Item label="난이도" name="level" required>
+              <InputNumber style={{ width: '100px' }} min={0} max={5} />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item label="자물쇠 장치 비율" name="lockingRatio">
+              <InputNumber
+                style={{ width: '100px' }}
+                min={0}
+                max={100}
+                addonAfter="%"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      </Box>
+      <Form.Item label="오픈일" name="openDate">
+        <DatePicker picker="date" placeholder="" />
       </Form.Item>
       <Form.Item label="상세 URL" name="detailUrl">
         <Input style={{ width: '400px' }} />

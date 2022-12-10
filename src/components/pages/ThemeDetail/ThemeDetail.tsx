@@ -7,6 +7,7 @@ import {
   StopTwoTone,
   PauseCircleTwoTone,
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 
 import { ITheme } from 'types';
 import api from 'api';
@@ -31,6 +32,7 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
       form.setFieldsValue({
         ...theme,
         images: theme.thumbnail ? [theme.thumbnail] : undefined,
+        openDate: theme.openDate ? dayjs(theme.openDate) : undefined,
       });
     }
     return () => {
@@ -66,18 +68,21 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
 
   function handleValuesReset() {
     form.setFieldsValue({
-      addressLine: undefined,
-      cityId: undefined,
-      desc: undefined,
-      images: undefined,
-      internet: undefined,
-      lat: undefined,
-      lng: undefined,
+      cafeId: undefined,
       name: undefined,
-      openingHours: undefined,
-      phone: undefined,
-      type: undefined,
-      website: undefined,
+      intro: undefined,
+      thumbnail: undefined,
+      genre: undefined,
+      price: undefined,
+      lockingRatio: undefined,
+      during: undefined,
+      minPerson: undefined,
+      maxPerson: undefined,
+      level: undefined,
+      detailUrl: undefined,
+      reservationUrl: undefined,
+      openDate: undefined,
+      status: undefined,
     });
   }
 
@@ -121,6 +126,12 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
     if (!values.level) {
       message.warning('난이도는 필수값입니다.');
       return;
+    }
+
+    if (values.openDate) {
+      values.openDate = dayjs(values.openDate.$d).format('YYYY-MM-DD');
+    } else {
+      values.openDate = '';
     }
 
     const thumbnail = values.images.length > 0 ? values.images[0] : '';
