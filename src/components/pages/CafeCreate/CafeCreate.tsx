@@ -47,12 +47,6 @@ const CafeDetail = () => {
       return;
     }
 
-    if (values.since) {
-      values.since = values.since.$y;
-    } else {
-      values.since = '';
-    }
-
     mutate(values);
   }
 

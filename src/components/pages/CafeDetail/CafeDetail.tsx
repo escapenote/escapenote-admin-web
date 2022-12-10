@@ -33,10 +33,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
 
   useEffect(() => {
     if (cafe) {
-      form.setFieldsValue({
-        ...cafe,
-        since: cafe.since ? dayjs(cafe.since) : undefined,
-      });
+      form.setFieldsValue(cafe);
     }
     return () => {
       handleValuesReset();
@@ -82,7 +79,6 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
       tel: undefined,
       openingHour: undefined,
       closingHour: undefined,
-      since: undefined,
       status: undefined,
     });
   }
@@ -103,12 +99,6 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
     if (!values.addressLine) {
       message.warning('주소는 필수값입니다.');
       return;
-    }
-
-    if (values.since) {
-      values.since = values.since.$y;
-    } else {
-      values.since = '';
     }
 
     updateMutate(values);

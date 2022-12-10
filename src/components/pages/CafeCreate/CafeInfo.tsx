@@ -60,9 +60,6 @@ const CafeInfo = () => {
           addonAfter="시간"
         />
       </Form.Item>
-      <Form.Item label="생성일" name="since">
-        <DatePicker picker="year" placeholder="" />
-      </Form.Item>
     </Section>
   );
 };

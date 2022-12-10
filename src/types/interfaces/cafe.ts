@@ -16,7 +16,6 @@ export interface ICafe {
   tel: string;
   openingHour: number;
   closingHour: number;
-  since: string;
   themes: ITheme[];
   themesCount: number;
   status: string;

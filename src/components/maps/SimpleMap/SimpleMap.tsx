@@ -30,7 +30,7 @@ const SimpleMap: React.FC<IProps> = ({ addressLine, lat, lng }) => {
     });
   }, [lat, lng]);
 
-  return <div ref={mapElement} style={{ minHeight: '376px' }} />;
+  return <div ref={mapElement} style={{ minHeight: '300px' }} />;
 };
 
 interface IMarkerProps {
