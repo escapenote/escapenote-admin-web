@@ -5,10 +5,10 @@ escapenoteAdminWebProd:
   inputs:
     roleArn: 'arn:aws:iam::805854560716:role/escapenote-admin-web-role'
     bucketRegion: 'ap-northeast-2'
-    bucketName: 'escapenote-admin-web-production'
+    bucketName: 'escapenote-admin-web-prod'
     domain: ['admin', 'escape-note.com']
     cloudfront:
-      distributionId: EIZ7OGA90PHZI
+      distributionId: E3OYTTWOQVND5Y
       defaults:
         forward:
           headers: [CloudFront-Is-Desktop-Viewer, CloudFront-Is-Mobile-Viewer]
