@@ -32,7 +32,7 @@ const CafeThemes: React.FC<IProps> = ({ id }) => {
         <>로딩중...</>
       ) : (
         data?.items.map(item => (
-          <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+          <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={6} xxl={4}>
             <Card
               hoverable
               cover={

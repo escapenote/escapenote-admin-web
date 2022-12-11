@@ -6,6 +6,7 @@ import {
   CheckCircleTwoTone,
   StopTwoTone,
   PauseCircleTwoTone,
+  PlusOutlined,
 } from '@ant-design/icons';
 
 import { ICafe } from 'types';
@@ -118,6 +119,10 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
     router.replace({ query: { ...router.query, tab: activeTab } });
   }
 
+  function moveToCreatePage() {
+    router.push('/themes/create');
+  }
+
   return (
     <>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -181,7 +186,19 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
             </Col>
           </Row>
         ) : (
-          <CafeThemes id={id} />
+          <>
+            <Box flexDirection="row" justifyContent="space-between">
+              <Box />
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={moveToCreatePage}
+              >
+                테마 추가
+              </Button>
+            </Box>
+            <CafeThemes id={id} />
+          </>
         )}
       </Form>
 
