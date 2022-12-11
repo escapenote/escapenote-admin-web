@@ -74,14 +74,15 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
       thumbnail: undefined,
       genre: undefined,
       price: undefined,
-      lockingRatio: undefined,
       during: undefined,
       minPerson: undefined,
       maxPerson: undefined,
       level: undefined,
+      lockingRatio: undefined,
+      fear: undefined,
+      openDate: undefined,
       detailUrl: undefined,
       reservationUrl: undefined,
-      openDate: undefined,
       status: undefined,
     });
   }
