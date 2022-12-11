@@ -23,7 +23,7 @@ const ThemeRequiredInfo: React.FC<IProps> = ({ form }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const { data: cafeList } = useQuery(['fetchCafes'], () =>
-    api.cafes.fetchCafes({ page: 1, limit: 1000 }),
+    api.cafes.fetchCafes({ page: 1, limit: 1000, sort: 'name', order: 'asc' }),
   );
 
   const getSrcFromFile = (file: any) => {

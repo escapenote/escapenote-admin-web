@@ -120,7 +120,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
   }
 
   function moveToCreatePage() {
-    router.push('/themes/create');
+    router.push(`/themes/create?cafeId=${id}`);
   }
 
   return (

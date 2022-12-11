@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Row, Col, Form, message } from 'antd';
 import { useMutation } from '@tanstack/react-query';
@@ -13,8 +13,15 @@ import ThemeOptionalInfo from './ThemeOptionalInfo';
 
 const ThemeCreate = () => {
   const router = useRouter();
+  const cafeId = String(router.query.cafeId ?? '');
 
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (cafeId) {
+      form.setFieldValue('cafeId', cafeId);
+    }
+  }, [cafeId]);
 
   const { mutate, isLoading: isSubmitting } = useMutation(
     (body: ICreateThemeBodyProps) => api.themes.createTheme({ body }),
