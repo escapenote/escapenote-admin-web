@@ -187,14 +187,14 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
           </Row>
         ) : (
           <>
-            <Box flexDirection="row" justifyContent="space-between">
+            <Box flexDirection="row" justifyContent="space-between" mb="12px">
               <Box />
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
                 onClick={moveToCreatePage}
               >
-                테마 추가
+                추가
               </Button>
             </Box>
             <CafeThemes id={id} />
