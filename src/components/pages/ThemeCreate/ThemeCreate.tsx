@@ -28,7 +28,7 @@ const ThemeCreate = () => {
     {
       onSuccess: () => {
         message.success('성공적으로 저장되었습니다.');
-        return router.push('/themes');
+        return router.back();
       },
       onError: () => {
         message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
