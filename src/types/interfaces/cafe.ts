@@ -1,3 +1,4 @@
+import { IOpeningHours } from './common';
 import { ITheme } from './theme';
 
 /**
@@ -14,10 +15,8 @@ export interface ICafe {
   images: string[];
   website: string;
   tel: string;
-  openingHour: number;
-  closingHour: number;
+  openingHours: IOpeningHours[];
   themes: ITheme[];
-  themesCount: number;
   status: string;
   createdAt: Date;
   updatedAt: Date;

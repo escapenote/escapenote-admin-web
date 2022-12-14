@@ -53,7 +53,7 @@ const ThemeCreate = () => {
       message.warning('설명은 필수값입니다.');
       return;
     }
-    if (!values.genre) {
+    if (!values.genre || values.genre.length === 0) {
       message.warning('장르는 필수값입니다.');
       return;
     }

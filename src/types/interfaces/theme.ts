@@ -1,4 +1,5 @@
 import { ICafe } from './cafe';
+import { IGenre } from './genre';
 
 /**
  * 테마
@@ -10,7 +11,7 @@ export interface ITheme {
   name: string;
   intro: string;
   thumbnail: string;
-  genre: string;
+  genre: IGenre[];
   price: number;
   during: number;
   minPerson: number;

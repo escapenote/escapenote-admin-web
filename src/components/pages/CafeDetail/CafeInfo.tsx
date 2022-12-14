@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, InputNumber, Select, Typography } from 'antd';
+import { Form, Input, Select, Typography } from 'antd';
 
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';
@@ -47,21 +47,8 @@ const SpaceInfo = () => {
       <Form.Item label="전화번호" name="tel">
         <Input />
       </Form.Item>
-      <Form.Item label="오픈 시간" name="openingHour">
-        <InputNumber
-          style={{ width: '120px' }}
-          min={0}
-          max={24}
-          addonAfter="시간"
-        />
-      </Form.Item>
-      <Form.Item label="클로즈 시간" name="closingHour">
-        <InputNumber
-          style={{ width: '120px' }}
-          min={0}
-          max={24}
-          addonAfter="시간"
-        />
+      <Form.Item label="영업 시간" name="openingHours">
+        <Input.TextArea rows={4} />
       </Form.Item>
     </Section>
   );

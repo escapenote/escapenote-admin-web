@@ -31,6 +31,7 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
     if (theme) {
       form.setFieldsValue({
         ...theme,
+        genre: theme.genre.map(v => v.id),
         images: theme.thumbnail ? [theme.thumbnail] : undefined,
         openDate: theme.openDate ? dayjs(theme.openDate) : undefined,
       });
@@ -104,7 +105,7 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
       message.warning('설명은 필수값입니다.');
       return;
     }
-    if (!values.genre) {
+    if (!values.genre || values.genre.length === 0) {
       message.warning('장르는 필수값입니다.');
       return;
     }

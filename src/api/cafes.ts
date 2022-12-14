@@ -63,8 +63,7 @@ export interface ICreateCafeBodyProps {
   images?: string[];
   website?: string;
   tel?: string;
-  openingHour?: number;
-  closingHour?: number;
+  openingHours?: any;
 }
 interface ICreateCafeProps {
   body: ICreateCafeBodyProps;
@@ -87,8 +86,7 @@ export interface IUpdateCafeBodyProps {
   images?: string[];
   website?: string;
   tel?: string;
-  openingHour?: number;
-  closingHour?: number;
+  openingHours?: any;
   status: string;
 }
 interface IUpdateCafeProps {

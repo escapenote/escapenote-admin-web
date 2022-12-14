@@ -61,7 +61,7 @@ export interface ICreateThemeBodyProps {
   name: string;
   intro: string;
   thumbnail: string;
-  genre: string;
+  genre: string[];
   price: number;
   during: number;
   minPerson: number;
@@ -90,7 +90,7 @@ export interface IUpdateThemeBodyProps {
   name: string;
   intro: string;
   thumbnail: string;
-  genre: string;
+  genre: string[];
   price: number;
   during: number;
   minPerson: number;

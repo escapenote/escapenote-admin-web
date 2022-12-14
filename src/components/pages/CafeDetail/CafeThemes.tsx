@@ -46,8 +46,10 @@ const CafeThemes: React.FC<IProps> = ({ id }) => {
             >
               <Box height="160px">
                 <Box display="inline" mb="12px">
-                  {item.genre ? (
-                    <Tag color="orange">장르: {item.genre}</Tag>
+                  {item.genre.length > 0 ? (
+                    <Tag color="orange">
+                      장르: {item.genre.map(v => v.id).join(', ')}
+                    </Tag>
                   ) : (
                     <Tag>장르: 미지정</Tag>
                   )}

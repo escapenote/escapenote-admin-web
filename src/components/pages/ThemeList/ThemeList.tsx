@@ -25,7 +25,7 @@ import {
 import dayjs from 'dayjs';
 
 import api from 'api';
-import { ICafe } from 'types';
+import { ICafe, IGenre } from 'types';
 import { numberWithComma } from 'utils/common';
 import { sorterTooltipNames } from 'utils/locale';
 import { Box } from 'components/atoms';
@@ -234,9 +234,9 @@ const ThemeList = () => {
             {
               title: '장르',
               dataIndex: 'genre',
-              sortDirections: ['descend', 'ascend', 'descend'],
-              sorter: true,
-              ...(sort === 'genre' && { sortOrder: orderedForAntd }),
+              render: (genre: IGenre[]) => {
+                return genre.map(v => v.id).join(', ');
+              },
             },
             {
               title: '최소 인원수',

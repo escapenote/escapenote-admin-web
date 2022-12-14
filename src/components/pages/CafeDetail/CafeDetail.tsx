@@ -33,7 +33,10 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
 
   useEffect(() => {
     if (cafe) {
-      form.setFieldsValue(cafe);
+      form.setFieldsValue({
+        ...cafe,
+        openingHours: JSON.stringify(cafe.openingHours),
+      });
     }
     return () => {
       handleValuesReset();
@@ -77,8 +80,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
       images: undefined,
       website: undefined,
       tel: undefined,
-      openingHour: undefined,
-      closingHour: undefined,
+      openingHours: undefined,
       status: undefined,
     });
   }
@@ -167,7 +169,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
                 <Tabs.TabPane key="info" tab="카페 정보" />
                 <Tabs.TabPane
                   key="themes"
-                  tab={`테마 리스트 (${cafe?.themesCount ?? 0})`}
+                  tab={`테마 리스트 (${cafe?.themes.length ?? 0})`}
                 />
               </Tabs>
             }

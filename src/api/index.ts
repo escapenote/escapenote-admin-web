@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Auth } from 'aws-amplify';
 
 import * as cafes from './cafes';
+import * as genre from './genre';
 import * as themes from './themes';
 import * as images from './images';
 
@@ -25,6 +26,7 @@ adminApi.interceptors.request.use(
 
 const exportedObject = {
   cafes,
+  genre,
   themes,
   images,
 };

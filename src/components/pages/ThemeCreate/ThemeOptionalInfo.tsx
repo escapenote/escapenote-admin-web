@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Col,
   DatePicker,
@@ -6,13 +7,19 @@ import {
   Input,
   InputNumber,
   Row,
+  Select,
   Typography,
 } from 'antd';
 
+import api from 'api';
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';
 
 const ThemeOptionalInfo = () => {
+  const { data: genreList } = useQuery(['fetchGenreList'], () =>
+    api.genre.fetchGenreList({ page: 1, limit: 1000 }),
+  );
+
   return (
     <Section>
       <Box mb="12px">
@@ -20,7 +27,20 @@ const ThemeOptionalInfo = () => {
       </Box>
 
       <Form.Item label="장르" name="genre" required>
-        <Input style={{ width: '200px' }} />
+        <Select
+          style={{ width: '400px' }}
+          showSearch
+          allowClear
+          mode="multiple"
+          placeholder="장르를 선택해주세요"
+          optionFilterProp="label"
+        >
+          {genreList?.items.map(item => (
+            <Select.Option key={item.id} label={item.id} value={item.id}>
+              {item.id}
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
       <Form.Item label="금액" name="price" required>
         <InputNumber style={{ width: '200px' }} min={0} addonAfter="원" />
