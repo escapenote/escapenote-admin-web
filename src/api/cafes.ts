@@ -6,6 +6,8 @@ import { ICafe } from 'types';
  */
 interface IFetchCafesProps {
   term?: string;
+  areaA?: string;
+  areaB?: string;
   status?: string;
   page: number;
   limit: number;
@@ -18,6 +20,8 @@ interface IFetchCafesRes {
 }
 export const fetchCafes = async ({
   term,
+  areaA,
+  areaB,
   status,
   page,
   limit,
@@ -29,6 +33,8 @@ export const fetchCafes = async ({
     take: limit,
   } as any;
   if (term) params.term = term;
+  if (areaA) params.areaA = areaA;
+  if (areaB) params.areaB = areaB;
   if (status) params.status = status;
   if (sort) params.sort = sort;
   if (order) params.order = order;

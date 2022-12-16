@@ -103,7 +103,7 @@ const CafeImage: React.FC<IProps> = ({ form }) => {
 
       <Form.Item name="images" required>
         <DndProvider backend={HTML5Backend}>
-          <ImgCrop aspect={1080 / 728}>
+          <ImgCrop rotate>
             <ImageUpload
               listType="picture-card"
               fileList={fileList}

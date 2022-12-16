@@ -48,15 +48,19 @@ const CafeList = () => {
    * 필터
    */
   const term = String(router.query.term ?? '');
+  const areaA = String(router.query.areaA ?? '');
+  const areaB = String(router.query.areaB ?? '');
   const status = String(router.query.status ?? '');
 
   const [form] = Form.useForm();
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
-    ['fetchCafes', term, status, page, limit, sort, order],
+    ['fetchCafes', term, areaA, areaB, status, page, limit, sort, order],
     () =>
       api.cafes.fetchCafes({
         term,
+        areaA,
+        areaB,
         status,
         page,
         limit,
@@ -82,7 +86,7 @@ const CafeList = () => {
   }
 
   function handleReset() {
-    form.setFieldsValue({ term: '', cityId: '', status: '' });
+    form.setFieldsValue({ term: '', areaA: '', areaB: '', status: '' });
     router.push({});
   }
 
@@ -96,11 +100,56 @@ const CafeList = () => {
         <Form
           form={form}
           layout="inline"
-          initialValues={{ term, status }}
+          initialValues={{ term, areaA, areaB, status }}
           onFinish={handleSubmit}
         >
           <Box flexDirection="row" justifyContent="space-between" width="100%">
             <Row style={{ flex: 1 }}>
+              <Form.Item label="지역 대분류" name="areaA">
+                <Select style={{ width: '100px' }}>
+                  <Select.Option value="">전체</Select.Option>
+                  <Select.Option value="서울">서울</Select.Option>
+                  {/* <Select.Option value="부산">부산</Select.Option>
+                  <Select.Option value="대구">대구</Select.Option>
+                  <Select.Option value="인천">인천</Select.Option>
+                  <Select.Option value="광주">광주</Select.Option>
+                  <Select.Option value="대전">대전</Select.Option>
+                  <Select.Option value="울산">울산</Select.Option>
+                  <Select.Option value="세종">세종</Select.Option>
+                  <Select.Option value="경기">경기</Select.Option>
+                  <Select.Option value="강원">강원</Select.Option>
+                  <Select.Option value="충북">충북</Select.Option>
+                  <Select.Option value="충남">충남</Select.Option>
+                  <Select.Option value="전북">전북</Select.Option>
+                  <Select.Option value="전남">전남</Select.Option>
+                  <Select.Option value="경북">경북</Select.Option>
+                  <Select.Option value="경남">경남</Select.Option>
+                  <Select.Option value="제주">제주</Select.Option> */}
+                </Select>
+              </Form.Item>
+              <Form.Item label="지역 소분류" name="areaB">
+                <Select style={{ width: '100px' }}>
+                  <Select.Option value="">전체</Select.Option>
+                  <Select.Option value="강남">강남</Select.Option>
+                  <Select.Option value="건대">건대</Select.Option>
+                  <Select.Option value="김포">김포</Select.Option>
+                  <Select.Option value="노량진">노량진</Select.Option>
+                  <Select.Option value="노원">노원</Select.Option>
+                  <Select.Option value="대학로">대학로</Select.Option>
+                  <Select.Option value="명동">명동</Select.Option>
+                  <Select.Option value="서울대입구">서울대입구</Select.Option>
+                  <Select.Option value="성신여대">성신여대</Select.Option>
+                  <Select.Option value="신림">신림</Select.Option>
+                  <Select.Option value="신사">신사</Select.Option>
+                  <Select.Option value="신촌">신촌</Select.Option>
+                  <Select.Option value="영등포">영등포</Select.Option>
+                  <Select.Option value="왕십리">왕십리</Select.Option>
+                  <Select.Option value="이수">이수</Select.Option>
+                  <Select.Option value="잠실">잠실</Select.Option>
+                  <Select.Option value="종각">종각</Select.Option>
+                  <Select.Option value="홍대">홍대</Select.Option>
+                </Select>
+              </Form.Item>
               <Form.Item label="카페명" name="term">
                 <Input placeholder="카페를 입력하세요" />
               </Form.Item>
