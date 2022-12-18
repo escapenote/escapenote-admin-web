@@ -7,7 +7,7 @@ interface IProps {
   lat?: number;
   lng?: number;
 }
-const SimpleMap: React.FC<IProps> = ({ addressLine, lat, lng }) => {
+const SimpleMap: React.FC<IProps> = ({ lat, lng }) => {
   const mapElement = useRef(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const SimpleMap: React.FC<IProps> = ({ addressLine, lat, lng }) => {
     const location = new naver.maps.LatLng(lat, lng);
     const mapOptions = {
       center: location,
-      zoom: 9,
+      zoom: 12,
       zoomControl: true,
       zoomControlOptions: {
         position: naver.maps.Position.TOP_RIGHT,
