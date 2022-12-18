@@ -2,7 +2,8 @@ import { useRouter } from 'next/router';
 import {
   AppstoreOutlined,
   ShopOutlined,
-  HighlightOutlined
+  HighlightOutlined,
+  TagsOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 
@@ -72,6 +73,12 @@ const Sidebar: React.FC<IProps> = ({ broken, onSetBroken }) => {
             label: '테마',
             icon: <HighlightOutlined />,
             onClick: () => router.push('/themes'),
+          },
+          {
+            key: 'genre',
+            label: '장르',
+            icon: <TagsOutlined />,
+            onClick: () => router.push('/genre'),
           },
         ]}
       />

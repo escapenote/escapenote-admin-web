@@ -21,6 +21,7 @@ import {
   Tooltip,
   Button,
   Select,
+  Tag,
 } from 'antd';
 import dayjs from 'dayjs';
 
@@ -250,7 +251,9 @@ const CafeList = () => {
               render: (themes: ITheme[], cafe: ICafe) => {
                 return (
                   <Link href={`/cafes/${cafe.id}?tab=themes`}>
-                    <a>{themes.length}</a>
+                    <a>
+                      <Tag color="orange">테마: {themes.length}</Tag>
+                    </a>
                   </Link>
                 );
               },
