@@ -63,6 +63,7 @@ export interface ICreateCafeBodyProps {
   areaA: string;
   areaB: string;
   name: string;
+  intro?: string;
   addressLine: string;
   lat?: number;
   lng?: number;
@@ -86,6 +87,7 @@ export interface IUpdateCafeBodyProps {
   areaA: string;
   areaB: string;
   name: string;
+  intro?: string;
   addressLine: string;
   lat?: number;
   lng?: number;
