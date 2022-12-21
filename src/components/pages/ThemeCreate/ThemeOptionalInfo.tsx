@@ -43,7 +43,12 @@ const ThemeOptionalInfo = () => {
         </Select>
       </Form.Item>
       <Form.Item label="금액" name="price" required>
-        <InputNumber style={{ width: '200px' }} min={0} addonAfter="원" />
+        <InputNumber
+          style={{ width: '200px' }}
+          min={0}
+          addonAfter="원"
+          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        />
       </Form.Item>
       <Form.Item label="시간" name="during" required>
         <InputNumber style={{ width: '100px' }} min={0} addonAfter="분" />
