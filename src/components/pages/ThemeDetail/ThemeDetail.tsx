@@ -105,10 +105,6 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
       message.warning('설명은 필수값입니다.');
       return;
     }
-    if (!values.genre || values.genre.length === 0) {
-      message.warning('장르는 필수값입니다.');
-      return;
-    }
     if (!values.price) {
       message.warning('금액은 필수값입니다.');
       return;

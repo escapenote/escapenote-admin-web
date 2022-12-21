@@ -26,7 +26,7 @@ const ThemeOptionalInfo = () => {
         <Typography.Title level={5}>추가 정보</Typography.Title>
       </Box>
 
-      <Form.Item label="장르" name="genre" required>
+      <Form.Item label="장르" name="genre">
         <Select
           style={{ width: '400px' }}
           showSearch
