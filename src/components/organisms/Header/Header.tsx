@@ -18,12 +18,11 @@ interface IProps {
 }
 const Header: React.FC<IProps> = ({ broken }) => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.auth.user);
   const collapsed = useAppSelector(state => state.common.isFolded);
 
   async function handleLogOut() {
     try {
-      await Auth.signOut();
+      await Auth.signOut({ global: true });
       dispatch(setAuth(null));
     } catch (error) {
       console.log('error signing out: ', error);

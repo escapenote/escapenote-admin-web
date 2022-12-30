@@ -21,7 +21,7 @@ import Login from 'components/pages/Login';
 Amplify.configure({ ...awsExports, ssr: true });
 
 function MyAuth({ children }: any) {
-  const user = useAppSelector(state => state.auth.user);
+  const { user } = useAppSelector(state => state.auth);
   return user ? children : <Login />;
 }
 
@@ -70,13 +70,12 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
         user = await Auth.currentSession();
         if (user) {
           store.dispatch(setAuth(user.idToken.payload));
+        } else {
+          store.dispatch(setAuth(null));
         }
       } catch (e) {
-        if (user) {
-          store.dispatch(setAuth(user.idToken.payload));
-        } else {
-          console.log(e);
-        }
+        store.dispatch(setAuth(null));
+        console.log(e);
       }
     }
 
