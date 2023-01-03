@@ -69,6 +69,7 @@ export interface ICreateThemeBodyProps {
   level: number;
   lockingRatio?: number;
   fear?: number;
+  activity?: number;
   openDate?: string;
   detailUrl?: string;
   reservationUrl?: string;
@@ -98,6 +99,7 @@ export interface IUpdateThemeBodyProps {
   level: number;
   lockingRatio?: number;
   fear?: number;
+  activity?: number;
   openDate?: string;
   detailUrl?: string;
   reservationUrl?: string;

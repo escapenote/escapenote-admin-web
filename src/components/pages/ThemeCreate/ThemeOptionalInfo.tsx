@@ -89,6 +89,9 @@ const ThemeOptionalInfo = () => {
       <Form.Item label="공포도" name="fear">
         <InputNumber style={{ width: '100px' }} min={0} max={5} />
       </Form.Item>
+      <Form.Item label="활동성" name="activity">
+        <InputNumber style={{ width: '100px' }} min={0} max={5} />
+      </Form.Item>
       <Form.Item label="오픈일" name="openDate">
         <DatePicker picker="date" placeholder="" />
       </Form.Item>
