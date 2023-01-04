@@ -70,6 +70,7 @@ const SpaceLocation: React.FC<IProps> = ({ form }) => {
                     <Select.Option value="신림">신림</Select.Option>
                     <Select.Option value="신사">신사</Select.Option>
                     <Select.Option value="신촌">신촌</Select.Option>
+                    <Select.Option value="연신내">연신내</Select.Option>
                     <Select.Option value="영등포">영등포</Select.Option>
                     <Select.Option value="왕십리">왕십리</Select.Option>
                     <Select.Option value="이수">이수</Select.Option>
