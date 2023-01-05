@@ -239,20 +239,23 @@ const ThemeList = () => {
               },
             },
             {
-              title: '최소 인원수',
-              dataIndex: 'minPerson',
+              title: '금액',
+              dataIndex: 'price',
               width: 100,
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
-              ...(sort === 'minPerson' && { sortOrder: orderedForAntd }),
+              ...(sort === 'price' && { sortOrder: orderedForAntd }),
+              render: price => {
+                return numberWithComma(price);
+              },
             },
             {
-              title: '최대 인원수',
-              dataIndex: 'maxPerson',
-              width: 100,
-              sortDirections: ['descend', 'ascend', 'descend'],
-              sorter: true,
-              ...(sort === 'maxPerson' && { sortOrder: orderedForAntd }),
+              title: '인원수',
+              dataIndex: 'minPerson',
+              width: 80,
+              render: (minPerson, theme) => {
+                return `${minPerson} - ${theme.maxPerson}`;
+              },
             },
             {
               title: '시간',
