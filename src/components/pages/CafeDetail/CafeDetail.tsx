@@ -14,6 +14,7 @@ import api from 'api';
 import { IUpdateCafeBodyProps } from 'api/cafes';
 import PageHeader from 'components/molecules/PageHeader';
 import { Box } from 'components/atoms';
+import CafeScrap from './CafeScrap';
 import CafeInfo from './CafeInfo';
 import CafeLocation from './CafeLocation';
 import CafeImage from './CafeImage';
@@ -71,6 +72,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
 
   function handleValuesReset() {
     form.setFieldsValue({
+      naverMapId: undefined,
       areaA: undefined,
       areaB: undefined,
       name: undefined,
@@ -179,6 +181,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
         {tab === 'info' ? (
           <Row gutter={[16, 16]}>
             <Col span={8}>
+              <CafeScrap />
               <CafeInfo />
             </Col>
 

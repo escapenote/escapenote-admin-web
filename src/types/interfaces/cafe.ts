@@ -6,6 +6,7 @@ import { ITheme } from './theme';
  */
 export interface ICafe {
   id: string;
+  naverMapId: string;
   areaA: string;
   areaB: string;
   name: string;

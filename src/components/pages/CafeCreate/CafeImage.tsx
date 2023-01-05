@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import update from 'immutability-helper';
@@ -19,6 +19,26 @@ interface IProps {
 }
 const CafeImage: React.FC<IProps> = ({ form }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const naverPhotos = Form.useWatch('naverPhotos', form);
+
+  useEffect(() => {
+    if (naverPhotos) {
+      setFileList(
+        naverPhotos.map((v: string) => ({
+          uid: v,
+          name: v,
+          thumbUrl: v,
+          url: v,
+          status: 'done',
+        })),
+      );
+      form.setFieldValue('images', naverPhotos);
+    }
+    return () => {
+      setFileList([]);
+    };
+  }, [naverPhotos]);
 
   const moveRow = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -101,6 +121,7 @@ const CafeImage: React.FC<IProps> = ({ form }) => {
         <Typography.Title level={5}>이미지</Typography.Title>
       </Box>
 
+      <Form.Item name="naverPhotos" hidden></Form.Item>
       <Form.Item name="images" required>
         <DndProvider backend={HTML5Backend}>
           <ImgCrop rotate>

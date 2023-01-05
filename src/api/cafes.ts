@@ -116,3 +116,19 @@ export const deleteCafe = async ({ id }: IDeleteCafeProps) => {
   const { data } = await adminApi.delete(`/cafes/${id}`);
   return data;
 };
+
+/**
+ * 카페 상세 데이터 조회
+ */
+export const fetchCafeByMapId = async (naverMapId: string) => {
+  const { data } = await adminApi.get(`/cafes/${naverMapId}/cafe`);
+  return data;
+};
+
+/**
+ * 네이버맵 장소 상세 데이터 조회
+ */
+export const fetchMapDetail = async (naverMapId: string) => {
+  const { data } = await adminApi.get(`/cafes/${naverMapId}/map`);
+  return data;
+};

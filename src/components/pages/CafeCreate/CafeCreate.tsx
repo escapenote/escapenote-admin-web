@@ -7,6 +7,7 @@ import api from 'api';
 import { ICreateCafeBodyProps } from 'api/cafes';
 import PageHeader from 'components/molecules/PageHeader';
 import { Box } from 'components/atoms';
+import CafeScrap from './CafeScrap';
 import CafeInfo from './CafeInfo';
 import CafeLocation from './CafeLocation';
 import CafeImage from './CafeImage';
@@ -71,6 +72,7 @@ const CafeDetail = () => {
 
       <Row gutter={[16, 16]}>
         <Col span={8}>
+          <CafeScrap form={form} />
           <CafeInfo />
         </Col>
 
