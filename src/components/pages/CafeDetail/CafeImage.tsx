@@ -40,6 +40,10 @@ const CafeImage: React.FC<IProps> = ({ form, cafe }) => {
         status: 'done',
       })) ?? []),
     ]);
+    form.setFieldValue('images', [
+      ...(cafe?.images ?? []),
+      ...(naverPhotos ?? []),
+    ]);
     return () => {
       setFileList([]);
     };

@@ -26,13 +26,6 @@ const CafeScrap: React.FC<IProps> = ({ form }) => {
         return;
       }
 
-      const space = await api.cafes.fetchCafeByMapId(naverMapId);
-      if (space) {
-        message.error('이미 추가된 카페입니다.');
-        setIsFinding(false);
-        return;
-      }
-
       const result = await api.cafes.fetchMapDetail(naverMapId);
       if (!result) {
         message.error('해당 장소를 찾을 수 없습니다.');

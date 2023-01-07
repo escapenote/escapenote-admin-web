@@ -109,6 +109,28 @@ export const updateCafe = async ({ id, body }: IUpdateCafeProps) => {
 };
 
 /**
+ * 카페 활성화
+ */
+interface IEnabledCafeProps {
+  id: string;
+}
+export const enabledCafe = async ({ id }: IEnabledCafeProps) => {
+  const { data } = await adminApi.patch(`/cafes/${id}/enabled`);
+  return data;
+};
+
+/**
+ * 카페 비활성화
+ */
+interface IDisabledCafeProps {
+  id: string;
+}
+export const disabledCafe = async ({ id }: IDisabledCafeProps) => {
+  const { data } = await adminApi.patch(`/cafes/${id}/disabled`);
+  return data;
+};
+
+/**
  * 카페 삭제
  */
 interface IDeleteCafeProps {

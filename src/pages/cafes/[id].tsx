@@ -11,11 +11,11 @@ const CafeDetailPage = () => {
   const router = useRouter();
   const id = String(router.query.id);
 
-  const { data } = useQuery(['fetchCafe', id], () =>
+  const { data, refetch } = useQuery(['fetchCafe', id], () =>
     api.cafes.fetchCafe({ id }),
   );
 
-  return <CafeDetail id={id} cafe={data} />;
+  return <CafeDetail id={id} cafe={data} refetch={refetch} />;
 };
 
 export default CafeDetailPage;

@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Typography, Modal, Button, Row, Col, Form, message, Tabs } from 'antd';
-import { useMutation } from '@tanstack/react-query';
 import {
-  CheckCircleTwoTone,
-  StopTwoTone,
-  PauseCircleTwoTone,
-  PlusOutlined,
-} from '@ant-design/icons';
+  Typography,
+  Modal,
+  Button,
+  Row,
+  Col,
+  Form,
+  message,
+  Tabs,
+  Switch,
+} from 'antd';
+import { useMutation } from '@tanstack/react-query';
+import { PlusOutlined } from '@ant-design/icons';
 
 import { ICafe } from 'types';
 import api from 'api';
@@ -23,8 +28,9 @@ import CafeThemes from './CafeThemes';
 interface IProps {
   id: string;
   cafe?: ICafe;
+  refetch?: any;
 }
-const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
+const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   const router = useRouter();
 
   const tab = String(router.query.tab ?? 'info');
@@ -50,6 +56,22 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
       onSuccess: () => {
         message.success('성공적으로 저장되었습니다.');
         return router.back();
+      },
+      onError: () => {
+        message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
+      },
+    },
+  );
+
+  const { mutate: statusMutate, isLoading: isStatusSubmitting } = useMutation(
+    (isChacked: boolean) =>
+      isChacked
+        ? api.cafes.enabledCafe({ id })
+        : api.cafes.disabledCafe({ id }),
+    {
+      onSuccess: () => {
+        message.success('성공적으로 상태 변경되었습니다.');
+        refetch();
       },
       onError: () => {
         message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
@@ -127,6 +149,10 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
     router.push(`/themes/create?cafeId=${id}`);
   }
 
+  function handleChangeStatus(checked: boolean) {
+    statusMutate(checked);
+  }
+
   return (
     <>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -134,15 +160,13 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
           <PageHeader
             title="카페 상세"
             subTitle={
-              <>
-                {cafe?.status === 'PUBLISHED' ? (
-                  <CheckCircleTwoTone twoToneColor="#52c41a" />
-                ) : cafe?.status === 'PROCESSING' ? (
-                  <PauseCircleTwoTone twoToneColor="#FFC300" />
-                ) : (
-                  <StopTwoTone twoToneColor="#eb2f96" />
-                )}
-              </>
+              <Switch
+                checkedChildren="활성화"
+                unCheckedChildren="비활성화"
+                loading={isStatusSubmitting}
+                checked={cafe?.status === 'PUBLISHED'}
+                onChange={handleChangeStatus}
+              />
             }
             extra={[
               <Button
@@ -153,7 +177,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
               >
                 저장
               </Button>,
-              cafe?.status !== 'DELETED' && (
+              cafe?.status === 'DELETED' && (
                 <Button
                   key="delete"
                   type="primary"
