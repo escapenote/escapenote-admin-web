@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import type { RcFile, UploadChangeParam } from 'antd/es/upload/interface';
 import { useQuery } from '@tanstack/react-query';
+import ImgCrop from 'antd-img-crop';
 
 import api from 'api';
 import Section from 'components/templates/Section';
@@ -20,6 +21,7 @@ interface IProps {
   form: FormInstance<any>;
 }
 const ThemeRequiredInfo: React.FC<IProps> = ({ form }) => {
+  const aspect = 3 / 4;
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const { data: cafeList } = useQuery(['fetchCafes'], () =>
@@ -94,17 +96,19 @@ const ThemeRequiredInfo: React.FC<IProps> = ({ form }) => {
       </Box>
 
       <Form.Item label="썸네일" name="images" required>
-        <ImageUpload
-          listType="picture-card"
-          maxCount={1}
-          fileList={fileList}
-          onPreview={handleFilePreview}
-          beforeUpload={handleFileUpload}
-          onChange={handleFileChange}
-          onRemove={handleFileRemove}
-        >
-          {fileList.length === 0 && '+ Upload'}
-        </ImageUpload>
+        <ImgCrop aspect={aspect} rotate cropperProps={{ aspect }}>
+          <ImageUpload
+            listType="picture-card"
+            maxCount={1}
+            fileList={fileList}
+            onPreview={handleFilePreview}
+            beforeUpload={handleFileUpload}
+            onChange={handleFileChange}
+            onRemove={handleFileRemove}
+          >
+            {fileList.length === 0 && '+ Upload'}
+          </ImageUpload>
+        </ImgCrop>
       </Form.Item>
       <Form.Item label="카페" name="cafeId" required>
         <Select
