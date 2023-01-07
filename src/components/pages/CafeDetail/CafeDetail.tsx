@@ -181,7 +181,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe }) => {
         {tab === 'info' ? (
           <Row gutter={[16, 16]}>
             <Col span={8}>
-              <CafeScrap />
+              <CafeScrap form={form} />
               <CafeInfo />
             </Col>
 

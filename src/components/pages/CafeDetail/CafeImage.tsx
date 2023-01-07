@@ -20,24 +20,30 @@ interface IProps {
   cafe?: ICafe;
 }
 const CafeImage: React.FC<IProps> = ({ form, cafe }) => {
+  const naverPhotos = Form.useWatch('naverPhotos', form);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    if (cafe) {
-      setFileList(
-        cafe.images.map(v => ({
-          uid: v,
-          name: v,
-          thumbUrl: `${process.env.NEXT_PUBLIC_IMAGE_URL}${v}`,
-          url: v,
-          status: 'done',
-        })),
-      );
-    }
+    setFileList([
+      ...(cafe?.images.map(v => ({
+        uid: v,
+        name: v,
+        thumbUrl: `${process.env.NEXT_PUBLIC_IMAGE_URL}${v}`,
+        url: v,
+        status: 'done',
+      })) ?? []),
+      ...(naverPhotos?.map((v: string) => ({
+        uid: v,
+        name: v,
+        thumbUrl: v,
+        url: v,
+        status: 'done',
+      })) ?? []),
+    ]);
     return () => {
       setFileList([]);
     };
-  }, [cafe]);
+  }, [cafe, naverPhotos]);
 
   const moveRow = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -120,6 +126,7 @@ const CafeImage: React.FC<IProps> = ({ form, cafe }) => {
         <Typography.Title level={5}>이미지</Typography.Title>
       </Box>
 
+      <Form.Item name="naverPhotos" hidden></Form.Item>
       <Form.Item name="images" required>
         <DndProvider backend={HTML5Backend}>
           <ImgCrop rotate>

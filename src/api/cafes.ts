@@ -60,6 +60,7 @@ export const fetchCafe = async ({ id }: IFetchCafeProps) => {
  * 카페 추가
  */
 export interface ICreateCafeBodyProps {
+  naverMapId?: string;
   areaA: string;
   areaB: string;
   name: string;
@@ -84,6 +85,7 @@ export const createCafe = async ({ body }: ICreateCafeProps) => {
  * 카페 수정
  */
 export interface IUpdateCafeBodyProps {
+  naverMapId?: string;
   areaA: string;
   areaB: string;
   name: string;
