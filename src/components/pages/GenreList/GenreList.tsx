@@ -18,6 +18,7 @@ import {
   Tag,
   Popconfirm,
   message,
+  Input,
 } from 'antd';
 import dayjs from 'dayjs';
 
@@ -45,15 +46,17 @@ const GenreList = () => {
   /**
    * 필터
    */
+  const term = String(router.query.term ?? '') || undefined;
   const includeThemes = true;
 
   const [form] = Form.useForm();
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
-    ['fetchGenreList', includeThemes, page, limit, sort, order],
+    ['fetchGenreList', term, includeThemes, page, limit, sort, order],
     () =>
       api.genre.fetchGenreList({
+        term,
         includeThemes,
         page,
         limit,
@@ -88,7 +91,7 @@ const GenreList = () => {
   }
 
   function handleReset() {
-    form.setFieldsValue({});
+    form.setFieldsValue({ term: undefined });
     router.push({});
   }
 
@@ -114,9 +117,18 @@ const GenreList = () => {
       </Box>
 
       <Section>
-        <Form form={form} layout="inline" onFinish={handleSubmit}>
+        <Form
+          form={form}
+          layout="inline"
+          initialValues={{ term }}
+          onFinish={handleSubmit}
+        >
           <Box flexDirection="row" justifyContent="space-between" width="100%">
-            <Row style={{ flex: 1 }}></Row>
+            <Row style={{ flex: 1 }}>
+              <Form.Item label="장르" name="term">
+                <Input placeholder="장르를 입력하세요" />
+              </Form.Item>
+            </Row>
             <Row>
               <Button
                 style={{ marginRight: '8px' }}

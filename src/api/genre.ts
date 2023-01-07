@@ -5,6 +5,7 @@ import { ITheme } from 'types';
  * 장르 리스트 조회
  */
 interface IFetchGenreListProps {
+  term?: string;
   includeThemes?: boolean;
   page: number;
   limit: number;
@@ -16,6 +17,7 @@ interface IFetchGenreListRes {
   items: ITheme[];
 }
 export const fetchGenreList = async ({
+  term,
   includeThemes,
   page,
   limit,
@@ -26,6 +28,7 @@ export const fetchGenreList = async ({
     skip: (page - 1) * limit,
     take: limit,
   } as any;
+  if (term) params.term = term;
   if (includeThemes) params.includeThemes = includeThemes;
   if (sort) params.sort = sort;
   if (order) params.order = order;
