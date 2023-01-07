@@ -276,8 +276,6 @@ const CafeList = () => {
               render: (status: string) => {
                 if (status === 'PUBLISHED')
                   return <CheckCircleTwoTone twoToneColor="#52c41a" />;
-                if (status === 'PROCESSING')
-                  return <PauseCircleTwoTone twoToneColor="#FFC300" />;
                 else return <StopTwoTone twoToneColor="#eb2f96" />;
               },
             },

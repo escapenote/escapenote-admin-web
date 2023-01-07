@@ -2,7 +2,12 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Tag, Row, Col } from 'antd';
-import { ClockCircleTwoTone, LockTwoTone } from '@ant-design/icons';
+import {
+  ClockCircleTwoTone,
+  LockTwoTone,
+  CheckCircleTwoTone,
+  StopTwoTone,
+} from '@ant-design/icons';
 
 import api from 'api';
 import { Box } from 'components/atoms';
@@ -42,13 +47,23 @@ const CafeThemes: React.FC<IProps> = ({ id }) => {
             onClick={() => handleClickTheme(item.id)}
           >
             <Box height="160px">
-              <Box display="inline" mb="12px">
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                mb="12px"
+              >
                 {item.genre.length > 0 ? (
                   <Tag color="orange">
                     장르: {item.genre.map(v => v.id).join(', ')}
                   </Tag>
                 ) : (
                   <Tag>장르: 미지정</Tag>
+                )}
+                {item.status === 'PUBLISHED' ? (
+                  <CheckCircleTwoTone twoToneColor="#52c41a" />
+                ) : (
+                  <StopTwoTone twoToneColor="#eb2f96" />
                 )}
               </Box>
               <Card.Meta
