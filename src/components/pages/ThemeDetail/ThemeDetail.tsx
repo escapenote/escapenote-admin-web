@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Typography, Modal, Button, Row, Col, Form, message } from 'antd';
-import { useMutation } from '@tanstack/react-query';
 import {
-  CheckCircleTwoTone,
-  StopTwoTone,
-  PauseCircleTwoTone,
-} from '@ant-design/icons';
+  Typography,
+  Modal,
+  Button,
+  Row,
+  Col,
+  Form,
+  message,
+  Switch,
+} from 'antd';
+import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 import { ITheme } from 'types';
@@ -20,8 +24,9 @@ import ThemeOptionalInfo from './ThemeOptionalInfo';
 interface IProps {
   id: string;
   theme?: ITheme;
+  refetch?: any;
 }
-const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
+const ThemeDetail: React.FC<IProps> = ({ id, theme, refetch }) => {
   const router = useRouter();
 
   const [form] = Form.useForm();
@@ -47,6 +52,22 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
       onSuccess: () => {
         message.success('성공적으로 저장되었습니다.');
         return router.back();
+      },
+      onError: () => {
+        message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
+      },
+    },
+  );
+
+  const { mutate: statusMutate, isLoading: isStatusSubmitting } = useMutation(
+    (isChacked: boolean) =>
+      isChacked
+        ? api.themes.enabledTheme({ id })
+        : api.themes.disabledTheme({ id }),
+    {
+      onSuccess: () => {
+        message.success('성공적으로 상태 변경되었습니다.');
+        refetch();
       },
       onError: () => {
         message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
@@ -147,6 +168,10 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
     setModalVisible(false);
   }
 
+  function handleChangeStatus(checked: boolean) {
+    statusMutate(checked);
+  }
+
   return (
     <>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -154,15 +179,13 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
           <PageHeader
             title="테마 상세"
             subTitle={
-              <>
-                {theme?.status === 'PUBLISHED' ? (
-                  <CheckCircleTwoTone twoToneColor="#52c41a" />
-                ) : theme?.status === 'PROCESSING' ? (
-                  <PauseCircleTwoTone twoToneColor="#FFC300" />
-                ) : (
-                  <StopTwoTone twoToneColor="#eb2f96" />
-                )}
-              </>
+              <Switch
+                checkedChildren="활성화"
+                unCheckedChildren="비활성화"
+                loading={isStatusSubmitting}
+                checked={theme?.status === 'PUBLISHED'}
+                onChange={handleChangeStatus}
+              />
             }
             extra={[
               <Button
@@ -173,7 +196,7 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme }) => {
               >
                 저장
               </Button>,
-              theme?.status !== 'DELETED' && (
+              theme?.status === 'DELETED' && (
                 <Button
                   key="delete"
                   type="primary"

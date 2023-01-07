@@ -11,11 +11,11 @@ const ThemeDetailPage = () => {
   const router = useRouter();
   const id = String(router.query.id);
 
-  const { data } = useQuery(['fetchTheme', id], () =>
+  const { data, refetch } = useQuery(['fetchTheme', id], () =>
     api.themes.fetchTheme({ id }),
   );
 
-  return <ThemeDetail id={id} theme={data} />;
+  return <ThemeDetail id={id} theme={data} refetch={refetch} />;
 };
 
 export default ThemeDetailPage;

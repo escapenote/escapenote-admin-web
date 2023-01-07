@@ -136,9 +136,8 @@ const ThemeList = () => {
               <Form.Item label="상태" name="status">
                 <Select style={{ width: '100px' }}>
                   <Select.Option value="">전체</Select.Option>
-                  <Select.Option value="PUBLISHED">배포된</Select.Option>
-                  <Select.Option value="PROCESSING">처리중</Select.Option>
-                  <Select.Option value="DELETED">삭제된</Select.Option>
+                  <Select.Option value="PUBLISHED">활성화</Select.Option>
+                  <Select.Option value="DELETED">비활성화</Select.Option>
                 </Select>
               </Form.Item>
             </Row>

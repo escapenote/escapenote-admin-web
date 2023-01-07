@@ -115,6 +115,28 @@ export const updateTheme = async ({ id, body }: IUpdateThemeProps) => {
 };
 
 /**
+ * 테마 활성화
+ */
+interface IEnabledThemeProps {
+  id: string;
+}
+export const enabledTheme = async ({ id }: IEnabledThemeProps) => {
+  const { data } = await adminApi.patch(`/themes/${id}/enabled`);
+  return data;
+};
+
+/**
+ * 테마 비활성화
+ */
+interface IDisabledThemeProps {
+  id: string;
+}
+export const disabledTheme = async ({ id }: IDisabledThemeProps) => {
+  const { data } = await adminApi.patch(`/themes/${id}/disabled`);
+  return data;
+};
+
+/**
  * 테마 삭제
  */
 interface IDeleteThemeProps {
