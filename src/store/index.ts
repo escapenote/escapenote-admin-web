@@ -2,10 +2,12 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
+import dataSlice from './dataSlice';
 import commonSlice from './commonSlice';
 import authSlice from './authSlice';
 
 const rootReducer = combineReducers({
+  [dataSlice.name]: dataSlice.reducer,
   [commonSlice.name]: commonSlice.reducer,
   [authSlice.name]: authSlice.reducer,
 });

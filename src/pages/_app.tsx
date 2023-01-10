@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import App, { AppProps } from 'next/app';
 import Amplify, { withSSRContext } from 'aws-amplify';
 import {
@@ -12,8 +12,9 @@ import { ConfigProvider } from 'antd';
 import awsExports from 'aws-exports';
 import globalStyles from 'styles/globalStyles';
 import { primaryColor } from 'styles/variables';
-import { useAppSelector, wrapper } from 'store';
+import { useAppDispatch, useAppSelector, wrapper } from 'store';
 import { setAuth } from 'store/authSlice';
+import { fetchCommonData } from 'store/dataSlice';
 import Layout from 'components/templates/Layout';
 import HeadDefaultMeta from 'components/templates/HeadDefaultMeta';
 import Login from 'components/pages/Login';
@@ -27,10 +28,14 @@ function MyAuth({ children }: any) {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClientRef = useRef<QueryClient>();
-
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
   }
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchCommonData());
+  }, []);
 
   const themeColor = `rgb(${primaryColor})`;
 

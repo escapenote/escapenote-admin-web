@@ -10,7 +10,6 @@ import {
   ReloadOutlined,
   CheckCircleTwoTone,
   StopTwoTone,
-  PauseCircleTwoTone,
 } from '@ant-design/icons';
 import {
   Table,
@@ -29,6 +28,7 @@ import api from 'api';
 import { ICafe, ITheme } from 'types';
 import { numberWithComma } from 'utils/common';
 import { sorterTooltipNames } from 'utils/locale';
+import { useAppSelector } from 'store';
 import { Box } from 'components/atoms';
 import Section from 'components/templates/Section';
 import PageHeader from 'components/molecules/PageHeader';
@@ -53,6 +53,9 @@ const CafeList = () => {
   const areaB = String(router.query.areaB ?? '');
   const status = String(router.query.status ?? '');
 
+  const location = useAppSelector(state => state.data.location);
+  const areaAData = '서울';
+  const areaBData = location[areaAData];
   const [form] = Form.useForm();
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
@@ -131,32 +134,11 @@ const CafeList = () => {
               <Form.Item label="지역 소분류" name="areaB">
                 <Select style={{ width: '100px' }}>
                   <Select.Option value="">전체</Select.Option>
-                  <Select.Option value="강남">강남</Select.Option>
-                  <Select.Option value="건대">건대</Select.Option>
-                  <Select.Option value="구로">구로</Select.Option>
-                  <Select.Option value="김포">김포</Select.Option>
-                  <Select.Option value="노량진">노량진</Select.Option>
-                  <Select.Option value="노원">노원</Select.Option>
-                  <Select.Option value="대학로">대학로</Select.Option>
-                  <Select.Option value="명동">명동</Select.Option>
-                  <Select.Option value="목동">목동</Select.Option>
-                  <Select.Option value="서울대입구">서울대입구</Select.Option>
-                  <Select.Option value="성수">성수</Select.Option>
-                  <Select.Option value="성신여대">성신여대</Select.Option>
-                  <Select.Option value="수유">수유</Select.Option>
-                  <Select.Option value="신림">신림</Select.Option>
-                  <Select.Option value="신사">신사</Select.Option>
-                  <Select.Option value="신촌">신촌</Select.Option>
-                  <Select.Option value="연신내">연신내</Select.Option>
-                  <Select.Option value="영등포">영등포</Select.Option>
-                  <Select.Option value="용산">용산</Select.Option>
-                  <Select.Option value="왕십리">왕십리</Select.Option>
-                  <Select.Option value="이수">이수</Select.Option>
-                  <Select.Option value="잠실">잠실</Select.Option>
-                  <Select.Option value="종로">종로</Select.Option>
-                  <Select.Option value="천호">천호</Select.Option>
-                  <Select.Option value="홍대">홍대</Select.Option>
-                  <Select.Option value="회기">회기</Select.Option>
+                  {areaBData?.map(v => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
                 </Select>
               </Form.Item>
               <Form.Item label="카페명" name="term">
