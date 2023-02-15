@@ -53,10 +53,11 @@ const CafeList = () => {
   const areaB = String(router.query.areaB ?? '');
   const status = String(router.query.status ?? '');
 
-  const location = useAppSelector(state => state.data.location);
-  const areaAData = '서울';
-  const areaBData = location[areaAData];
   const [form] = Form.useForm();
+  const location = useAppSelector(state => state.data.location);
+  const _areaA = Form.useWatch('areaA', form);
+  const areaAData = Object.keys(location);
+  const areaBData = _areaA ? location[_areaA] : [];
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
     ['fetchCafes', term, areaA, areaB, status, page, limit, sort, order],
@@ -112,23 +113,11 @@ const CafeList = () => {
               <Form.Item label="지역 대분류" name="areaA">
                 <Select style={{ width: '100px' }}>
                   <Select.Option value="">전체</Select.Option>
-                  <Select.Option value="서울">서울</Select.Option>
-                  {/* <Select.Option value="부산">부산</Select.Option>
-                  <Select.Option value="대구">대구</Select.Option>
-                  <Select.Option value="인천">인천</Select.Option>
-                  <Select.Option value="광주">광주</Select.Option>
-                  <Select.Option value="대전">대전</Select.Option>
-                  <Select.Option value="울산">울산</Select.Option>
-                  <Select.Option value="세종">세종</Select.Option>
-                  <Select.Option value="경기">경기</Select.Option>
-                  <Select.Option value="강원">강원</Select.Option>
-                  <Select.Option value="충북">충북</Select.Option>
-                  <Select.Option value="충남">충남</Select.Option>
-                  <Select.Option value="전북">전북</Select.Option>
-                  <Select.Option value="전남">전남</Select.Option>
-                  <Select.Option value="경북">경북</Select.Option>
-                  <Select.Option value="경남">경남</Select.Option>
-                  <Select.Option value="제주">제주</Select.Option> */}
+                  {areaAData?.map(v => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
                 </Select>
               </Form.Item>
               <Form.Item label="지역 소분류" name="areaB">
