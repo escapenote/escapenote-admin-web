@@ -16,9 +16,10 @@ import {
   Tooltip,
   Button,
   Tag,
-  Popconfirm,
   message,
   Input,
+  Modal,
+  Typography,
 } from 'antd';
 import dayjs from 'dayjs';
 
@@ -51,6 +52,8 @@ const GenreList = () => {
 
   const [form] = Form.useForm();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteGenreId, setDeleteGenreId] = useState('');
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
     ['fetchGenreList', term, includeThemes, page, limit, sort, order],
@@ -68,7 +71,7 @@ const GenreList = () => {
     },
   );
 
-  const { mutate } = useMutation(
+  const { mutate: deleteMutate, isLoading: isDeleting } = useMutation(
     ({ id }: { id: string }) => api.genre.deleteGenre({ id }),
     {
       onSuccess: () => {
@@ -95,8 +98,9 @@ const GenreList = () => {
     router.push({});
   }
 
-  function handleDelete(genreId: string) {
-    mutate({ id: genreId });
+  function handleDelete() {
+    deleteMutate({ id: deleteGenreId });
+    handleHideDeleteModal();
   }
 
   function handleShowCreateModal() {
@@ -108,6 +112,15 @@ const GenreList = () => {
   function handleCallbackCreateModal() {
     setShowCreateModal(false);
     refetch();
+  }
+
+  function handleShowDeleteModal(genreId: string) {
+    setDeleteGenreId(genreId);
+    setShowDeleteModal(true);
+  }
+  function handleHideDeleteModal() {
+    setDeleteGenreId('');
+    setShowDeleteModal(false);
   }
 
   return (
@@ -227,14 +240,12 @@ const GenreList = () => {
               width: 100,
               render: (_, genre) => (
                 <Box flexDirection="row">
-                  <Popconfirm
-                    title="정말로 삭제하시겠습니까?"
-                    okText="삭제"
-                    cancelText="취소"
-                    onConfirm={() => handleDelete(genre.id)}
-                  >
-                    <Button danger shape="circle" icon={<DeleteOutlined />} />
-                  </Popconfirm>
+                  <Button
+                    danger
+                    shape="circle"
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleShowDeleteModal(genre.id)}
+                  />
                 </Box>
               ),
             },
@@ -274,6 +285,38 @@ const GenreList = () => {
         onCancel={handleHideCreateModal}
         onCallback={handleCallbackCreateModal}
       />
+
+      {/* Modals */}
+      <Modal
+        title="장르 삭제"
+        visible={showDeleteModal}
+        onCancel={handleHideDeleteModal}
+        footer={
+          <Box flexDirection="row" justifyContent="flex-end">
+            <Box mr="8px">
+              <Button onClick={handleHideDeleteModal}>취소</Button>
+            </Box>
+            <Button
+              type="primary"
+              danger
+              loading={isDeleting}
+              onClick={handleDelete}
+            >
+              삭제
+            </Button>
+          </Box>
+        }
+      >
+        <Box flexDirection="row">
+          <Typography.Text strong>&apos;{deleteGenreId}&apos;</Typography.Text>
+          <Typography.Text>을/를 삭제하시겠습니까?</Typography.Text>
+        </Box>
+        <Box>
+          <Typography.Text type="danger" strong>
+            (테마가 있는 경우 모두 연결 해제 됩니다.)
+          </Typography.Text>
+        </Box>
+      </Modal>
     </>
   );
 };
