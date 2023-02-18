@@ -9,6 +9,7 @@ export interface ITheme {
   cafe: ICafe;
   cafeId: string;
   name: string;
+  displayName: string;
   intro: string;
   thumbnail: string;
   genre: IGenre[];

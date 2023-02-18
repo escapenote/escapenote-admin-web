@@ -59,6 +59,7 @@ export const fetchTheme = async ({ id }: IFetchThemeProps) => {
 export interface ICreateThemeBodyProps {
   cafeId: string;
   name: string;
+  displayName: string;
   intro: string;
   thumbnail: string;
   genre: string[];
@@ -89,6 +90,7 @@ export const createTheme = async ({ body }: ICreateThemeProps) => {
 export interface IUpdateThemeBodyProps {
   cafeId: string;
   name: string;
+  displayName: string;
   intro: string;
   thumbnail: string;
   genre: string[];

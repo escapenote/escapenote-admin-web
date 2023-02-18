@@ -46,9 +46,6 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
         openingHours: JSON.stringify(cafe.openingHours),
       });
     }
-    return () => {
-      handleValuesReset();
-    };
   }, [cafe]);
 
   const { mutate: updateMutate, isLoading: isSubmitting } = useMutation(
@@ -92,23 +89,6 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
       },
     },
   );
-
-  function handleValuesReset() {
-    form.setFieldsValue({
-      naverMapId: undefined,
-      areaA: undefined,
-      areaB: undefined,
-      name: undefined,
-      addressLine: undefined,
-      lat: undefined,
-      lng: undefined,
-      images: undefined,
-      website: undefined,
-      tel: undefined,
-      openingHours: undefined,
-      status: undefined,
-    });
-  }
 
   function handleSubmit(values: any) {
     if (!values.areaA) {

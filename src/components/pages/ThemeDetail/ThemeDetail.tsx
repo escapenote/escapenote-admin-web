@@ -41,9 +41,6 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme, refetch }) => {
         openDate: theme.openDate ? dayjs(theme.openDate) : undefined,
       });
     }
-    return () => {
-      handleValuesReset();
-    };
   }, [theme]);
 
   const { mutate: updateMutate, isLoading: isSubmitting } = useMutation(
@@ -88,27 +85,6 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme, refetch }) => {
     },
   );
 
-  function handleValuesReset() {
-    form.setFieldsValue({
-      cafeId: undefined,
-      name: undefined,
-      intro: undefined,
-      thumbnail: undefined,
-      genre: undefined,
-      price: undefined,
-      during: undefined,
-      minPerson: undefined,
-      maxPerson: undefined,
-      level: undefined,
-      lockingRatio: undefined,
-      fear: undefined,
-      openDate: undefined,
-      detailUrl: undefined,
-      reservationUrl: undefined,
-      status: undefined,
-    });
-  }
-
   function handleSubmit(values: any) {
     if (!values.images) {
       message.warning('썸네일은 필수값입니다.');
@@ -120,6 +96,10 @@ const ThemeDetail: React.FC<IProps> = ({ id, theme, refetch }) => {
     }
     if (!values.name) {
       message.warning('이름은 필수값입니다.');
+      return;
+    }
+    if (!values.displayName) {
+      message.warning('표시 이름은 필수값입니다.');
       return;
     }
     if (!values.intro) {

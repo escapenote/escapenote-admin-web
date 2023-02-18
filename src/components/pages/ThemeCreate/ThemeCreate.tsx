@@ -49,6 +49,10 @@ const ThemeCreate = () => {
       message.warning('이름은 필수값입니다.');
       return;
     }
+    if (!values.displayName) {
+      message.warning('표시 이름은 필수값입니다.');
+      return;
+    }
     if (!values.intro) {
       message.warning('설명은 필수값입니다.');
       return;

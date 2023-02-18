@@ -153,6 +153,9 @@ const ThemeRequiredInfo: React.FC<IProps> = ({ form, theme }) => {
       <Form.Item label="이름" name="name" required>
         <Input />
       </Form.Item>
+      <Form.Item label="표시 이름" name="displayName" required>
+        <Input />
+      </Form.Item>
       <Form.Item label="설명" name="intro" required>
         <Input.TextArea rows={6} />
       </Form.Item>
