@@ -24,7 +24,6 @@ import CafeInfo from './CafeInfo';
 import CafeLocation from './CafeLocation';
 import CafeImage from './CafeImage';
 import CafeThemes from './CafeThemes';
-import CafeScrapper from './CafeScrapper';
 
 interface IProps {
   id: string;
@@ -123,7 +122,11 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   }
 
   function handleChangeTab(activeTab: string) {
-    router.replace({ query: { ...router.query, tab: activeTab } });
+    if (activeTab === 'monitoring') {
+      router.push(`/scrappers/${cafe?.scrapper?.id}`);
+    } else {
+      router.replace({ query: { ...router.query, tab: activeTab } });
+    }
   }
 
   function moveToCreatePage() {
@@ -133,8 +136,6 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   function handleChangeStatus(checked: boolean) {
     statusMutate(checked);
   }
-
-  console.log('cafe', cafe);
 
   return (
     <>
@@ -215,9 +216,6 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
             </Box>
             <CafeThemes id={id} />
           </>
-        )}
-        {tab === 'monitoring' && cafe?.scrapper && (
-          <CafeScrapper id={cafe.scrapper.id} scrapper={cafe.scrapper} />
         )}
       </Form>
 
