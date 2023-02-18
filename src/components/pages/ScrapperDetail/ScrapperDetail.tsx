@@ -8,51 +8,43 @@ import {
   Col,
   Form,
   message,
-  Tabs,
   Switch,
 } from 'antd';
 import { useMutation } from '@tanstack/react-query';
-import { PlusOutlined } from '@ant-design/icons';
 
-import { ICafe } from 'types';
+import { IScrapper } from 'types';
 import api from 'api';
-import { IUpdateCafeBodyProps } from 'api/cafes';
+import { IUpdateScrapperBodyProps } from 'api/scrappers';
 import PageHeader from 'components/molecules/PageHeader';
 import { Box } from 'components/atoms';
-import CafeScrap from './CafeScrap';
-import CafeInfo from './CafeInfo';
-import CafeLocation from './CafeLocation';
-import CafeImage from './CafeImage';
-import CafeThemes from './CafeThemes';
-import CafeScrapper from './CafeScrapper';
+import ScrapperInfo from './ScrapperInfo';
+import ScrapperPreview from './ScrapperPreview';
 
 interface IProps {
   id: string;
-  cafe?: ICafe;
+  scrapper?: IScrapper;
   refetch?: any;
 }
-const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
+const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
   const router = useRouter();
 
-  const tab = String(router.query.tab ?? 'info');
-
   const [form] = Form.useForm();
+  const cafeId = Form.useWatch('cafeId', form);
+  const themeSelector = Form.useWatch('themeSelector', form);
+
   const [isModalVisible, setModalVisible] = useState(false);
+  const [currentTitles, setCurrentTitles] = useState<string[]>([]);
+  const [scrappedTitles, setScrappedTitles] = useState<string[]>([]);
 
   useEffect(() => {
-    if (cafe) {
-      form.setFieldsValue({
-        ...cafe,
-        openingHours: JSON.stringify(cafe.openingHours),
-      });
+    if (scrapper) {
+      form.setFieldsValue(scrapper);
     }
-    return () => {
-      handleValuesReset();
-    };
-  }, [cafe]);
+  }, [scrapper]);
 
   const { mutate: updateMutate, isLoading: isSubmitting } = useMutation(
-    (body: IUpdateCafeBodyProps) => api.cafes.updateCafe({ id, body }),
+    (body: IUpdateScrapperBodyProps) =>
+      api.scrappers.updateScrapper({ id, body }),
     {
       onSuccess: () => {
         message.success('성공적으로 저장되었습니다.');
@@ -67,8 +59,8 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   const { mutate: statusMutate, isLoading: isStatusSubmitting } = useMutation(
     (isChacked: boolean) =>
       isChacked
-        ? api.cafes.enabledCafe({ id })
-        : api.cafes.disabledCafe({ id }),
+        ? api.scrappers.enabledScrapper({ id })
+        : api.scrappers.disabledScrapper({ id }),
     {
       onSuccess: () => {
         message.success('성공적으로 상태 변경되었습니다.');
@@ -81,7 +73,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   );
 
   const { mutate: deleteMutate, isLoading: isDeleting } = useMutation(
-    () => api.cafes.deleteCafe({ id }),
+    () => api.scrappers.deleteScrapper({ id }),
     {
       onSuccess: () => {
         message.success('성공적으로 삭제되었습니다.');
@@ -93,38 +85,17 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
     },
   );
 
-  function handleValuesReset() {
-    form.setFieldsValue({
-      naverMapId: undefined,
-      areaA: undefined,
-      areaB: undefined,
-      name: undefined,
-      addressLine: undefined,
-      lat: undefined,
-      lng: undefined,
-      images: undefined,
-      website: undefined,
-      tel: undefined,
-      openingHours: undefined,
-      status: undefined,
-    });
-  }
-
   function handleSubmit(values: any) {
-    if (!values.areaA) {
-      message.warning('지역 대분류는 필수값입니다.');
+    if (!values.cafeId) {
+      message.warning('카페는 필수값입니다.');
       return;
     }
-    if (!values.areaB) {
-      message.warning('지역 소분류는 필수값입니다.');
+    if (!values.url) {
+      message.warning('URL은 필수값입니다.');
       return;
     }
-    if (!values.name) {
-      message.warning('이름은 필수값입니다.');
-      return;
-    }
-    if (!values.addressLine) {
-      message.warning('주소는 필수값입니다.');
+    if (!values.themeSelector) {
+      message.warning('테마 셀렉터는 필수값입니다.');
       return;
     }
 
@@ -142,32 +113,36 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
     setModalVisible(false);
   }
 
-  function handleChangeTab(activeTab: string) {
-    router.replace({ query: { ...router.query, tab: activeTab } });
-  }
-
-  function moveToCreatePage() {
-    router.push(`/themes/create?cafeId=${id}`);
-  }
-
   function handleChangeStatus(checked: boolean) {
     statusMutate(checked);
   }
 
-  console.log('cafe', cafe);
+  async function handleScrap() {
+    if (cafeId) {
+      const data = await api.scrappers.fetchScrapperTryScrap({
+        id,
+        cafeId,
+        themeSelector,
+      });
+      setCurrentTitles(data.currentTitles.sort());
+      setScrappedTitles(data.scrappedTitles.sort());
+    } else {
+      message.warning('카페 체크 후 사용해주세요.');
+    }
+  }
 
   return (
     <>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
         <Box mx="-24px" mb="24px">
           <PageHeader
-            title="카페 상세"
+            title="스크래퍼 상세"
             subTitle={
               <Switch
                 checkedChildren="활성화"
                 unCheckedChildren="비활성화"
                 loading={isStatusSubmitting}
-                checked={cafe?.status === 'PUBLISHED'}
+                checked={scrapper?.status === 'PUBLISHED'}
                 onChange={handleChangeStatus}
               />
             }
@@ -180,7 +155,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
               >
                 저장
               </Button>,
-              cafe?.status === 'DELETED' && (
+              scrapper?.status === 'DELETED' && (
                 <Button
                   key="delete"
                   type="primary"
@@ -193,57 +168,26 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
               ),
             ]}
             onBack={() => router.back()}
-            footer={
-              <Tabs activeKey={tab} onChange={handleChangeTab}>
-                <Tabs.TabPane key="info" tab="카페 정보" />
-                <Tabs.TabPane
-                  key="themes"
-                  tab={`테마 리스트 (${cafe?.themes.length ?? 0})`}
-                />
-                {cafe?.scrapper && (
-                  <Tabs.TabPane key="monitoring" tab="모니터링" />
-                )}
-              </Tabs>
-            }
           />
         </Box>
 
-        {tab === 'info' && (
-          <Row gutter={[16, 16]}>
-            <Col span={8}>
-              <CafeScrap form={form} />
-              <CafeInfo />
-            </Col>
+        <Row gutter={[16, 16]}>
+          <Col span={8}>
+            <ScrapperInfo form={form} onScrap={handleScrap} />
+          </Col>
 
-            <Col span={16}>
-              <CafeImage form={form} cafe={cafe} />
-              <CafeLocation form={form} />
-            </Col>
-          </Row>
-        )}
-        {tab === 'themes' && (
-          <>
-            <Box flexDirection="row" justifyContent="space-between" mb="12px">
-              <Box />
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={moveToCreatePage}
-              >
-                추가
-              </Button>
-            </Box>
-            <CafeThemes id={id} />
-          </>
-        )}
-        {tab === 'monitoring' && cafe?.scrapper && (
-          <CafeScrapper id={cafe.scrapper.id} scrapper={cafe.scrapper} />
-        )}
+          <Col span={16}>
+            <ScrapperPreview
+              currentTitles={currentTitles}
+              scrappedTitles={scrappedTitles}
+            />
+          </Col>
+        </Row>
       </Form>
 
       {/* Modals */}
       <Modal
-        title="카페 삭제"
+        title="테마 삭제"
         visible={isModalVisible}
         onCancel={handleCloseModal}
         footer={
@@ -263,7 +207,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
         }
       >
         <Box flexDirection="row">
-          <Typography.Text strong>&apos;{cafe?.name}&apos;</Typography.Text>
+          <Typography.Text strong>&apos;해당 스크래퍼&apos;</Typography.Text>
           <Typography.Text>을/를 삭제하시겠습니까?</Typography.Text>
         </Box>
       </Modal>
@@ -271,4 +215,4 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   );
 };
 
-export default CafeDetail;
+export default ScrapperDetail;

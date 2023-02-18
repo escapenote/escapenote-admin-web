@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-const ThemeCreate = dynamic(() => import('components/pages/ThemeCreate'), {
+const ThemeCreate = dynamic(() => import('components/pages/ThemeCreate'), {
   ssr: false,
 });
 

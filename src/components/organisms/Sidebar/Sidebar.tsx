@@ -4,6 +4,7 @@ import {
   ShopOutlined,
   HighlightOutlined,
   TagsOutlined,
+  RobotOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 
@@ -79,6 +80,12 @@ const Sidebar: React.FC<IProps> = ({ broken, onSetBroken }) => {
             label: '장르',
             icon: <TagsOutlined />,
             onClick: () => router.push('/genre'),
+          },
+          {
+            key: 'monitoring',
+            label: '모니터링',
+            icon: <RobotOutlined />,
+            onClick: () => router.push('/monitoring/metrics'),
           },
         ]}
       />

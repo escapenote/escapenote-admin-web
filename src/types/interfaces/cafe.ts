@@ -1,4 +1,5 @@
 import { IOpeningHours } from './common';
+import { IScrapper } from './scrapper';
 import { ITheme } from './theme';
 
 /**
@@ -18,6 +19,7 @@ export interface ICafe {
   tel: string;
   openingHours: IOpeningHours[];
   themes: ITheme[];
+  scrapper?: IScrapper;
   status: string;
   createdAt: Date;
   updatedAt: Date;

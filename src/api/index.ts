@@ -6,6 +6,8 @@ import * as cafes from './cafes';
 import * as genre from './genre';
 import * as themes from './themes';
 import * as images from './images';
+import * as scrappers from './scrappers';
+import * as metrics from './metrics';
 
 export const staticApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STATIC_URL,
@@ -35,6 +37,8 @@ const exportedObject = {
   genre,
   themes,
   images,
+  scrappers,
+  metrics,
 };
 
 export default exportedObject;
