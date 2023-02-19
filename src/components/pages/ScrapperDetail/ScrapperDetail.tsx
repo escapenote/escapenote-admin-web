@@ -116,6 +116,7 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
     await updateMutate(form.getFieldsValue());
     try {
       await api.scrappers.fetchScrapperTryScrap({ id });
+      refetch();
       message.success('성공적으로 스크랩하였습니다.');
     } catch {
       message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
@@ -173,7 +174,7 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
 
           <Col span={16}>
             {scrapper?.metric?.id && (
-              <ScrapperPreview metricId={scrapper.metric.id} />
+              <ScrapperPreview metric={scrapper?.metric} />
             )}
           </Col>
         </Row>

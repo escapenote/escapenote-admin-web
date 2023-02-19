@@ -122,7 +122,7 @@ const MonitoringMetrics = () => {
           <Box flexDirection="row" justifyContent="space-between" width="100%">
             <Row style={{ flex: 1 }}>
               <Form.Item label="상태" name="status">
-                <Select style={{ width: '100px' }}>
+                <Select style={{ width: '110px' }}>
                   <Select.Option value="">전체</Select.Option>
                   <Select.Option value="SOMETHING_WRONG">
                     <WarningTwoTone twoToneColor="#eb2f96" /> 문제있음
@@ -158,7 +158,7 @@ const MonitoringMetrics = () => {
           locale={sorterTooltipNames}
           size="middle"
           rowKey="id"
-          loading={isLoading || isRefetching}
+          loading={isLoading || isRefetching || isScrapping}
           dataSource={data?.items}
           title={() => (
             <Box flexDirection="row" justifyContent="space-between">

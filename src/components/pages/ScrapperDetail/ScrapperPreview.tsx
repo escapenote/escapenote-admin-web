@@ -1,22 +1,17 @@
 import React from 'react';
 import { Form, Input, Typography } from 'antd';
-import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import api from 'api';
+import { IMetric } from 'types';
 import Section from 'components/templates/Section';
 import { Box } from 'components/atoms';
 
 interface IProps {
-  metricId: string;
+  metric: IMetric;
 }
-const ScrapperPreview: React.FC<IProps> = ({ metricId }) => {
-  const { data } = useQuery(['fetchMetric', metricId], () =>
-    api.metrics.fetchMetric({ id: metricId }),
-  );
-
+const ScrapperPreview: React.FC<IProps> = ({ metric }) => {
   const createdAt =
-    data?.createdAt && dayjs(data.createdAt).format('YYYY-MM-DD HH:mm');
+    metric?.createdAt && dayjs(metric.createdAt).format('YYYY-MM-DD HH:mm');
 
   return (
     <Section>
@@ -33,14 +28,14 @@ const ScrapperPreview: React.FC<IProps> = ({ metricId }) => {
           <Box flexDirection="row" alignItems="center">
             <Box mr="4px">현재 데이터</Box>
             <Typography.Text type="danger">
-              {data?.currentThemes.length}
+              {metric?.currentThemes.length}
             </Typography.Text>
           </Box>
         }
       >
         <Input.TextArea
           style={{ minHeight: '245px' }}
-          value={JSON.stringify(data?.currentThemes, null, 2)}
+          value={JSON.stringify(metric?.currentThemes, null, 2)}
         />
       </Form.Item>
       <Form.Item
@@ -48,14 +43,14 @@ const ScrapperPreview: React.FC<IProps> = ({ metricId }) => {
           <Box flexDirection="row" alignItems="center">
             <Box mr="4px">스크랩 데이터</Box>
             <Typography.Text type="danger">
-              {data?.scrappedThemes.length}
+              {metric?.scrappedThemes.length}
             </Typography.Text>
           </Box>
         }
       >
         <Input.TextArea
           style={{ minHeight: '245px' }}
-          value={JSON.stringify(data?.scrappedThemes, null, 2)}
+          value={JSON.stringify(metric?.scrappedThemes, null, 2)}
         />
       </Form.Item>
     </Section>
