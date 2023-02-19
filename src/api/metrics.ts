@@ -37,6 +37,17 @@ export const fetchMetrics = async ({
 };
 
 /**
+ * 메트릭 상세 조회
+ */
+interface IFetchMetricProps {
+  id: string;
+}
+export const fetchMetric = async ({ id }: IFetchMetricProps) => {
+  const { data } = await adminApi.get<IMetric>(`/metrics/${id}`);
+  return data;
+};
+
+/**
  * 스크래퍼 이상없음으로 상태 변경
  */
 interface IChangeMetricStatusProps {

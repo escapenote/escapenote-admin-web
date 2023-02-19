@@ -29,12 +29,8 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
   const router = useRouter();
 
   const [form] = Form.useForm();
-  const cafeId = Form.useWatch('cafeId', form);
-  const themeSelector = Form.useWatch('themeSelector', form);
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [currentTitles, setCurrentTitles] = useState<string[]>([]);
-  const [scrappedTitles, setScrappedTitles] = useState<string[]>([]);
 
   useEffect(() => {
     if (scrapper) {
@@ -42,13 +38,12 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
     }
   }, [scrapper]);
 
-  const { mutate: updateMutate, isLoading: isSubmitting } = useMutation(
+  const { mutateAsync: updateMutate, isLoading: isSubmitting } = useMutation(
     (body: IUpdateScrapperBodyProps) =>
       api.scrappers.updateScrapper({ id, body }),
     {
       onSuccess: () => {
         message.success('성공적으로 저장되었습니다.');
-        return router.back();
       },
       onError: () => {
         message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
@@ -118,16 +113,12 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
   }
 
   async function handleScrap() {
-    if (cafeId) {
-      const data = await api.scrappers.fetchScrapperTryScrap({
-        id,
-        cafeId,
-        themeSelector,
-      });
-      setCurrentTitles(data.currentTitles.sort());
-      setScrappedTitles(data.scrappedTitles.sort());
-    } else {
-      message.warning('카페 체크 후 사용해주세요.');
+    await updateMutate(form.getFieldsValue());
+    try {
+      await api.scrappers.fetchScrapperTryScrap({ id });
+      message.success('성공적으로 스크랩하였습니다.');
+    } catch {
+      message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
     }
   }
 
@@ -173,14 +164,17 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
 
         <Row gutter={[16, 16]}>
           <Col span={8}>
-            <ScrapperInfo form={form} onScrap={handleScrap} />
+            <ScrapperInfo
+              form={form}
+              cafeId={scrapper?.cafeId}
+              onScrap={handleScrap}
+            />
           </Col>
 
           <Col span={16}>
-            <ScrapperPreview
-              currentTitles={currentTitles}
-              scrappedTitles={scrappedTitles}
-            />
+            {scrapper?.metric?.id && (
+              <ScrapperPreview metricId={scrapper.metric.id} />
+            )}
           </Col>
         </Row>
       </Form>

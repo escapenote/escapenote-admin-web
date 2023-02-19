@@ -5,6 +5,8 @@ import { ICafe } from 'types';
  * 카페 리스트 조회
  */
 interface IFetchCafesProps {
+  isNotScrapper?: boolean;
+  cafeId?: string;
   term?: string;
   areaA?: string;
   areaB?: string;
@@ -19,6 +21,8 @@ interface IFetchCafesRes {
   items: ICafe[];
 }
 export const fetchCafes = async ({
+  isNotScrapper = false,
+  cafeId,
   term,
   areaA,
   areaB,
@@ -29,9 +33,11 @@ export const fetchCafes = async ({
   order,
 }: IFetchCafesProps) => {
   const params = {
+    isNotScrapper,
     skip: (page - 1) * limit,
     take: limit,
   } as any;
+  if (cafeId) params.cafeId = cafeId;
   if (term) params.term = term;
   if (areaA) params.areaA = areaA;
   if (areaB) params.areaB = areaB;

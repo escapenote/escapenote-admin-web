@@ -122,7 +122,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   }
 
   function handleChangeTab(activeTab: string) {
-    if (activeTab === 'monitoring') {
+    if (activeTab === 'scrapper') {
       router.push(`/scrappers/${cafe?.scrapper?.id}`);
     } else {
       router.replace({ query: { ...router.query, tab: activeTab } });
@@ -182,7 +182,7 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
                   tab={`테마 리스트 (${cafe?.themes.length ?? 0})`}
                 />
                 {cafe?.scrapper && (
-                  <Tabs.TabPane key="monitoring" tab="모니터링" />
+                  <Tabs.TabPane key="scrapper" tab="스크래퍼" />
                 )}
               </Tabs>
             }

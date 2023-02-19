@@ -63,7 +63,7 @@ const CafeThemes: React.FC<IProps> = ({ id }) => {
                 {item.status === 'PUBLISHED' ? (
                   <CheckCircleTwoTone twoToneColor="#52c41a" />
                 ) : (
-                  <StopTwoTone twoToneColor="#eb2f96" />
+                  <StopTwoTone twoToneColor="#fa8c16" />
                 )}
               </Box>
               <Card.Meta

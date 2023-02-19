@@ -39,8 +39,8 @@ const MonitoringMetrics = () => {
    */
   const page = Number(router.query.page ?? 1);
   const limit = Number(router.query.limit ?? 20);
-  const sort = String(router.query.sort ?? 'createdAt');
-  const order = String(router.query.order ?? 'desc');
+  const sort = String(router.query.sort ?? 'status');
+  const order = String(router.query.order ?? 'asc');
   const orderedForAntd = order === 'asc' ? 'ascend' : 'descend';
 
   /**
@@ -125,9 +125,11 @@ const MonitoringMetrics = () => {
                 <Select style={{ width: '100px' }}>
                   <Select.Option value="">전체</Select.Option>
                   <Select.Option value="SOMETHING_WRONG">
-                    문제있음
+                    <WarningTwoTone twoToneColor="#eb2f96" /> 문제있음
                   </Select.Option>
-                  <Select.Option value="NOTHING_WRONG">이상없음</Select.Option>
+                  <Select.Option value="NOTHING_WRONG">
+                    <CheckCircleTwoTone twoToneColor="#52c41a" /> 이상없음
+                  </Select.Option>
                 </Select>
               </Form.Item>
             </Row>
@@ -233,7 +235,7 @@ const MonitoringMetrics = () => {
               render: (status: string) => {
                 if (status === 'NOTHING_WRONG')
                   return <CheckCircleTwoTone twoToneColor="#52c41a" />;
-                else return <WarningTwoTone twoToneColor="#fa8c16" />;
+                else return <WarningTwoTone twoToneColor="#eb2f96" />;
               },
             },
             {

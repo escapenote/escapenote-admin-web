@@ -106,8 +106,6 @@ export const deleteScrapper = async ({ id }: IDeleteScrapperProps) => {
  */
 interface IFetchScrapperTryScrapProps {
   id: string;
-  cafeId: string;
-  themeSelector: string;
 }
 interface IFetchScrapperTryScrapRes {
   currentTitles: string[];
@@ -115,13 +113,9 @@ interface IFetchScrapperTryScrapRes {
 }
 export const fetchScrapperTryScrap = async ({
   id,
-  cafeId,
-  themeSelector,
 }: IFetchScrapperTryScrapProps) => {
-  const params = { cafeId, themeSelector };
   const { data } = await adminApi.get<IFetchScrapperTryScrapRes>(
     `/scrappers/${id}/scrap`,
-    { params },
   );
   return data;
 };

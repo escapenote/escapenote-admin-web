@@ -24,8 +24,8 @@ const Monitoring: React.FC<IProps> = ({ tab }) => {
           title="모니터링"
           footer={
             <Tabs activeKey={tab} onChange={handleChangeTab}>
-              <Tabs.TabPane key="metrics" tab="테마 현황" />
-              <Tabs.TabPane key="scrappers" tab="카페별 테마 수집 관리" />
+              <Tabs.TabPane key="metrics" tab="스크랩 현황" />
+              <Tabs.TabPane key="scrappers" tab="스크랩 봇 관리" />
             </Tabs>
           }
         />

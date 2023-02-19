@@ -8,13 +8,23 @@ import { Box } from 'components/atoms';
 
 interface IProps {
   form: FormInstance<any>;
+  cafeId?: string;
   onScrap: () => Promise<void>;
 }
-const ScrapperInfo: React.FC<IProps> = ({ form, onScrap }) => {
+const ScrapperInfo: React.FC<IProps> = ({ form, cafeId, onScrap }) => {
   const [isScrapping, setIsScrapping] = useState(false);
 
-  const { data: cafeList } = useQuery(['fetchCafes'], () =>
-    api.cafes.fetchCafes({ page: 1, limit: 1000, sort: 'name', order: 'asc' }),
+  const { data: cafeList } = useQuery(
+    ['fetchCafes', 'isNotScrapper', cafeId],
+    () =>
+      api.cafes.fetchCafes({
+        isNotScrapper: true,
+        cafeId,
+        page: 1,
+        limit: 1000,
+        sort: 'name',
+        order: 'asc',
+      }),
   );
 
   function handleCafeChange(id: string) {
