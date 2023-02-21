@@ -51,6 +51,17 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
     },
   );
 
+  const { mutateAsync: updateMutateNoReply, isLoading: isSubmittingNoReply } =
+    useMutation(
+      (body: IUpdateScrapperBodyProps) =>
+        api.scrappers.updateScrapper({ id, body }),
+      {
+        onError: () => {
+          message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
+        },
+      },
+    );
+
   const { mutate: statusMutate, isLoading: isStatusSubmitting } = useMutation(
     (isChacked: boolean) =>
       isChacked
@@ -113,11 +124,11 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
   }
 
   async function handleScrap() {
-    await updateMutate(form.getFieldsValue());
+    await updateMutateNoReply(form.getFieldsValue());
     try {
       await api.scrappers.fetchScrapperTryScrap({ id });
       refetch();
-      message.success('성공적으로 스크랩하였습니다.');
+      message.success('성공적으로 스크랩 및 저장하였습니다.');
     } catch {
       message.error('에러가 발생했습니다. 관리자에게 문의해주세요.');
     }
@@ -143,7 +154,7 @@ const ScrapperDetail: React.FC<IProps> = ({ id, scrapper, refetch }) => {
                 key="save"
                 type="primary"
                 htmlType="submit"
-                loading={isSubmitting}
+                loading={isSubmitting || isSubmittingNoReply}
               >
                 저장
               </Button>,
