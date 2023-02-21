@@ -21,6 +21,7 @@ import {
   Select,
   message,
   Typography,
+  Empty,
 } from 'antd';
 import dayjs from 'dayjs';
 
@@ -60,13 +61,16 @@ const MonitoringMetrics = () => {
         sort,
         order,
       }),
+    {
+      retry: 0,
+    },
   );
 
   const { mutate: scrapMutate, isLoading: isScrapping } = useMutation(
     () => api.metrics.scrapAll(),
     {
       onSuccess: () => {
-        message.success('성공적으로 스크랩 되었습니다.');
+        message.info('전체 스크랩을 시작하였습니다. 대략 1분정도 소요됩니다.');
         refetch();
       },
       onError: () => {
@@ -155,7 +159,25 @@ const MonitoringMetrics = () => {
 
       <Section>
         <Table
-          locale={sorterTooltipNames}
+          locale={{
+            ...sorterTooltipNames,
+            emptyText: (
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                style={{ color: 'black' }}
+                description={
+                  <p>
+                    스크랩 중입니다.
+                    <br />
+                    <Typography.Text type="danger">
+                      대략 1분정도
+                    </Typography.Text>
+                    소요됩니다.
+                  </p>
+                }
+              />
+            ),
+          }}
           size="middle"
           rowKey="id"
           loading={isLoading || isRefetching || isScrapping}
