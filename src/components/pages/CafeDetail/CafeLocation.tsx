@@ -49,7 +49,14 @@ const SpaceLocation: React.FC<IProps> = ({ form }) => {
                 </Form.Item>
               </Col>
               <Col>
-                <Form.Item label="지역 소분류" name="areaB" required>
+                <Form.Item
+                  label="지역 소분류"
+                  name="areaB"
+                  required={
+                    (location[areaA] && location[areaA].length > 0) ||
+                    !Boolean(areaA)
+                  }
+                >
                   <Select style={{ width: '140px' }}>
                     {areaBData?.map(v => (
                       <option key={v} value={v}>

@@ -17,6 +17,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ICafe } from 'types';
 import api from 'api';
 import { IUpdateCafeBodyProps } from 'api/cafes';
+import { useAppSelector } from 'store';
 import PageHeader from 'components/molecules/PageHeader';
 import { Box } from 'components/atoms';
 import CafeScrap from './CafeScrap';
@@ -32,9 +33,9 @@ interface IProps {
 }
 const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
   const router = useRouter();
-
   const tab = String(router.query.tab ?? 'info');
 
+  const location = useAppSelector(state => state.data.location);
   const [form] = Form.useForm();
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -94,9 +95,11 @@ const CafeDetail: React.FC<IProps> = ({ id, cafe, refetch }) => {
       message.warning('지역 대분류는 필수값입니다.');
       return;
     }
-    if (!values.areaB) {
-      message.warning('지역 소분류는 필수값입니다.');
-      return;
+    if (location[values.areaA] && location[values.areaA].length > 0) {
+      if (!values.areaB) {
+        message.warning('지역 소분류는 필수값입니다.');
+        return;
+      }
     }
     if (!values.name) {
       message.warning('이름은 필수값입니다.');

@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import api from 'api';
 import { ICreateCafeBodyProps } from 'api/cafes';
+import { useAppSelector } from 'store';
 import PageHeader from 'components/molecules/PageHeader';
 import { Box } from 'components/atoms';
 import CafeScrap from './CafeScrap';
@@ -15,6 +16,7 @@ import CafeImage from './CafeImage';
 const CafeDetail = () => {
   const router = useRouter();
 
+  const location = useAppSelector(state => state.data.location);
   const [form] = Form.useForm();
 
   const { mutate, isLoading: isSubmitting } = useMutation(
@@ -35,9 +37,11 @@ const CafeDetail = () => {
       message.warning('지역 대분류는 필수값입니다.');
       return;
     }
-    if (!values.areaB) {
-      message.warning('지역 소분류는 필수값입니다.');
-      return;
+    if (location[values.areaA] && location[values.areaA].length > 0) {
+      if (!values.areaB) {
+        message.warning('지역 소분류는 필수값입니다.');
+        return;
+      }
     }
     if (!values.name) {
       message.warning('이름은 필수값입니다.');
