@@ -224,10 +224,10 @@ const ThemeList = () => {
             },
             {
               title: '이름',
-              dataIndex: 'name',
+              dataIndex: 'displayName',
               sortDirections: ['descend', 'ascend', 'descend'],
               sorter: true,
-              ...(sort === 'name' && { sortOrder: orderedForAntd }),
+              ...(sort === 'displayName' && { sortOrder: orderedForAntd }),
             },
             {
               title: '장르',

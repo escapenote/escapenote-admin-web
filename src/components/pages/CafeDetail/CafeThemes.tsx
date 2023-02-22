@@ -67,7 +67,7 @@ const CafeThemes: React.FC<IProps> = ({ id }) => {
                 )}
               </Box>
               <Card.Meta
-                title={item.name}
+                title={item.displayName}
                 description={<Desc>{item.intro}</Desc>}
               />
               <Box flexDirection="row" mt="auto">
