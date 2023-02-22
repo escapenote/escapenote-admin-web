@@ -1,5 +1,5 @@
 import { adminApi } from 'api';
-import { ITheme } from 'types';
+import { IGenre } from 'types';
 
 /**
  * 장르 리스트 조회
@@ -14,7 +14,7 @@ interface IFetchGenreListProps {
 }
 interface IFetchGenreListRes {
   total: number;
-  items: ITheme[];
+  items: IGenre[];
 }
 export const fetchGenreList = async ({
   term,

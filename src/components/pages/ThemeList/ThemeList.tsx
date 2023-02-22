@@ -47,16 +47,18 @@ const ThemeList = () => {
    * 필터
    */
   const cafeId = String(router.query.cafeId ?? '') || undefined;
+  const genre = String(router.query.genre ?? '') || undefined;
   const term = String(router.query.term ?? '') || undefined;
   const status = String(router.query.status ?? '');
 
   const [form] = Form.useForm();
 
   const { isLoading, data, isRefetching, refetch } = useQuery(
-    ['fetchThemes', cafeId, term, status, page, limit, sort, order],
+    ['fetchThemes', cafeId, genre, term, status, page, limit, sort, order],
     () =>
       api.themes.fetchThemes({
         cafeId,
+        genre,
         term,
         status,
         page,
@@ -69,8 +71,26 @@ const ThemeList = () => {
     },
   );
 
-  const { data: cafeList } = useQuery(['fetchCafes'], () =>
-    api.cafes.fetchCafes({ page: 1, limit: 1000, sort: 'name', order: 'asc' }),
+  const { data: cafeList } = useQuery(
+    ['fetchCafes', 1, 1000, 'name', 'asc'],
+    () =>
+      api.cafes.fetchCafes({
+        page: 1,
+        limit: 1000,
+        sort: 'name',
+        order: 'asc',
+      }),
+  );
+
+  const { data: genreList } = useQuery(
+    ['fetchGenreList', 1, 1000, 'id', 'asc'],
+    () =>
+      api.genre.fetchGenreList({
+        page: 1,
+        limit: 1000,
+        sort: 'id',
+        order: 'asc',
+      }),
   );
 
   function moveToCreatePage() {
@@ -89,6 +109,7 @@ const ThemeList = () => {
   function handleReset() {
     form.setFieldsValue({
       cafeId: undefined,
+      genre: undefined,
       term: undefined,
       status: '',
     });
@@ -105,7 +126,7 @@ const ThemeList = () => {
         <Form
           form={form}
           layout="inline"
-          initialValues={{ cafeId, term, status }}
+          initialValues={{ cafeId, genre, term, status }}
           onFinish={handleSubmit}
         >
           <Box flexDirection="row" justifyContent="space-between" width="100%">
@@ -125,6 +146,25 @@ const ThemeList = () => {
                       value={item.id}
                     >
                       {item.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item label="장르" name="genre">
+                <Select
+                  style={{ width: '200px' }}
+                  showSearch
+                  allowClear
+                  placeholder="장르를 선택해주세요"
+                  optionFilterProp="label"
+                >
+                  {genreList?.items.map(item => (
+                    <Select.Option
+                      key={item.id}
+                      label={item.id}
+                      value={item.id}
+                    >
+                      {item.id}
                     </Select.Option>
                   ))}
                 </Select>

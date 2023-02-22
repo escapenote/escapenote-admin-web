@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { pickBy } from 'lodash';
@@ -24,7 +25,7 @@ import {
 import dayjs from 'dayjs';
 
 import api from 'api';
-import { ITheme } from 'types';
+import { IGenre, ITheme } from 'types';
 import { numberWithComma } from 'utils/common';
 import { sorterTooltipNames } from 'utils/locale';
 import { Box } from 'components/atoms';
@@ -211,8 +212,14 @@ const GenreList = () => {
               dataIndex: 'themes',
               width: 80,
               align: 'center',
-              render: (themes: ITheme[]) => {
-                return <Tag color="orange">테마: {themes.length}</Tag>;
+              render: (themes: ITheme[], genre: IGenre) => {
+                return (
+                  <Link href={`/themes?genre=${genre.id}`}>
+                    <a>
+                      <Tag color="orange">테마: {themes.length}</Tag>
+                    </a>
+                  </Link>
+                );
               },
             },
             {

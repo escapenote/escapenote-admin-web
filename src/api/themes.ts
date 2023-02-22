@@ -6,6 +6,7 @@ import { ITheme } from 'types';
  */
 interface IFetchThemesProps {
   cafeId?: string;
+  genre?: string;
   term?: string;
   status?: string;
   page: number;
@@ -19,6 +20,7 @@ interface IFetchThemesRes {
 }
 export const fetchThemes = async ({
   cafeId,
+  genre,
   term,
   status,
   page,
@@ -31,6 +33,7 @@ export const fetchThemes = async ({
     take: limit,
   } as any;
   if (cafeId) params.cafeId = cafeId;
+  if (genre) params.genre = genre;
   if (term) params.term = term;
   if (status) params.status = status;
   if (sort) params.sort = sort;
