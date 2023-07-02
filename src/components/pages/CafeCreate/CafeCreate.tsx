@@ -52,6 +52,7 @@ const CafeDetail = () => {
       return;
     }
 
+    values.tel = values.tel ? values.tel : '';
     mutate(values);
   }
 
